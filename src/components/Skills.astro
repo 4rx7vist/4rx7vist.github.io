@@ -1,0 +1,68 @@
+---
+const skills = [
+  {
+    category: "Frontend",
+    items: [
+      { name: "HTML5", level: 95, icon: "assets/icons/html.svg" },
+      { name: "CSS3", icon: "assets/icons/css.svg" },
+      { name: "JavaScript", icon: "assets/icons/javascript.svg" },
+      { name: "TypeScript", icon: "assets/icons/typescript.svg" },
+      { name: "React", icon: "assets/icons/react.svg" },
+    ],
+  },
+  {
+    category: "Backend",
+    items: [
+      { name: "Python", icon: "assets/icons/python.svg" },
+      { name: "fastApi", icon: "assets/icons/fastApi.svg" },
+      { name: "Node.js", icon: "assets/icons/nodeJS.svg" },
+      { name: "Express.js", icon: "assets/icons/express.svg" },
+      { name: "PostgreSQL", icon: "assets/icons/postgresSQL.svg" },
+    ],
+  },
+  {
+    category: "AI",
+    items: [
+      { name: "Langchain", icon: "assets/icons/langchain.svg" },
+      { name: "Crawl4AI", icon: "assets/icons/crawlAI.svg" },
+    ],
+  },
+  {
+    category: "Tools & Others",
+    items: [
+      { name: "Git/GitHub", icon: "assets/icons/git.svg" },
+      { name: "Docker", icon: "assets/icons/docker.svg" },
+      { name: "Linux", icon: "assets/icons/linux.svg" },
+      { name: "Bash", icon: "assets/icons/bash.svg" },
+    ],
+  },
+];
+let mostrar = false;
+---
+
+<section id="skills" class="my-8">
+  <h2 class="text-2xl font-bold mb-4">Skills</h2>
+  <button
+    class="px-4 py-2 rounded-full bg-blue-700 text-white hover:bg-blue-800 transition-colors mb-4"
+    onclick="toggleMostrar()"
+  >
+    {mostrar ? "Ocultar" : "Mostrar"}
+  </button>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {
+      skills.map((skill) => (
+        <div class="bg-[#232323] rounded-xl p-4 shadow-md">
+          <h3 class="text-lg font-semibold mb-2">{skill.category}</h3>
+          <ul class="flex flex-wrap gap-4">
+            {skill.items.map((item) => (
+              <li class="flex items-center gap-2 bg-[#262626] px-3 py-2 rounded-full text-white">
+                <img src={item.icon} alt={item.name} class="w-6 h-6" />
+                <span>{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

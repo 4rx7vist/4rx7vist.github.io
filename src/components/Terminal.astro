@@ -1,0 +1,318 @@
+---
+// filepath: c:\Users\alexi\Documents\PROJECTS\Portafolio_principal\portfolio\src\components\Terminal.astro
+export interface Props {
+  title?: string;
+  prompt?: string;
+  welcomeMessages?: string[];
+  commands?: any;
+}
+
+const { 
+  title = "~/terminal", 
+  prompt = "user@portfolio:~$",
+  welcomeMessages = [
+    "Welcome to Terminal v1.0",
+    "Type 'help' for available commands"
+  ]
+} = Astro.props;
+---
+
+<div class="max-w-4xl w-full">
+  <h2 class="text-green-400 text-2xl font-mono mb-8 text-center">
+    {title}
+  </h2>
+
+  <!-- Terminal Container -->
+  <div class="bg-gray-900 border border-green-400 rounded-lg shadow-2xl">
+    <!-- Terminal Header -->
+    <div class="bg-gray-800 px-4 py-2 flex items-center border-b border-green-400">
+      <div class="flex space-x-2">
+        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+      </div>
+      <div class="ml-4 text-green-400 font-mono text-sm">
+        {prompt}
+      </div>
+    </div>
+
+    <!-- Terminal Content -->
+    <div class="p-6 font-mono text-green-400">
+      <!-- Welcome Message -->
+      <div id="welcome-text" class="mb-4">
+        {welcomeMessages.map((message) => (
+          <p class="mb-2">{message}</p>
+        ))}
+      </div>
+
+      <!-- Terminal History -->
+      <div id="terminal-history" class="mb-4 max-h-64 overflow-y-auto"></div>
+
+      <!-- Input Line -->
+      <div class="flex items-center">
+        <span class="text-green-400 mr-2">$</span>
+        <input
+          id="terminal-input"
+          type="text"
+          class="flex-1 bg-transparent border-none outline-none text-green-400 font-mono"
+          placeholder="Enter command..."
+          autocomplete="off"
+        />
+        <span id="cursor" class="w-2 h-6 bg-green-400 ml-1 animate-pulse"></span>
+      </div>
+
+      <!-- Status Messages -->
+      <div id="status-message" class="mt-4 min-h-6"></div>
+    </div>
+  </div>
+
+  <!-- Help Panel -->
+  <div
+    id="help-panel"
+    class="mt-6 bg-gray-900 border border-green-400 rounded-lg p-4 font-mono text-green-400 text-sm hidden"
+  >
+    <h3 class="text-yellow-400 mb-3">Available Commands:</h3>
+    <ul id="help-commands" class="space-y-1">
+      <!-- Commands will be populated by JavaScript -->
+    </ul>
+  </div>
+</div>
+
+<script>
+import { gsap } from "gsap";
+
+class Terminal {
+  constructor(customCommands = {}) {
+    this.input = document.getElementById('terminal-input');
+    this.history = document.getElementById('terminal-history');
+    this.status = document.getElementById('status-message');
+    this.helpPanel = document.getElementById('help-panel');
+    this.helpCommands = document.getElementById('help-commands');
+    
+    // Default commands
+    this.commands = {
+      help: {
+        description: 'Show this help panel',
+        action: () => this.showHelp()
+      },
+      clear: {
+        description: 'Clear terminal history',
+        action: () => this.clearHistory()
+      },
+      whoami: {
+        description: 'Display current user',
+        action: () => this.addToHistory('visitor@alexis-portfolio.dev')
+      },
+      ...customCommands
+    };
+    
+    this.initializeEventListeners();
+    this.animateWelcome();
+    this.populateHelpCommands();
+  }
+
+  initializeEventListeners() {
+    if (this.input) {
+      this.input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          this.processCommand();
+        }
+      });
+    }
+  }
+
+  populateHelpCommands() {
+    if (this.helpCommands) {
+      this.helpCommands.innerHTML = '';
+      Object.entries(this.commands).forEach(([command, config]) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="text-cyan-400">${command}</span> - ${config.description}`;
+        this.helpCommands.appendChild(li);
+      });
+    }
+  }
+
+  animateWelcome() {
+    const welcomeText = document.getElementById('welcome-text');
+    if (welcomeText && typeof gsap !== 'undefined') {
+      gsap.from(welcomeText.children, {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        ease: "power2.out"
+      });
+    }
+  }
+
+  processCommand() {
+    const command = this.input.value.trim();
+    if (!command) return;
+
+    this.addToHistory(`$ ${command}`);
+    this.executeCommand(command);
+    this.input.value = '';
+  }
+
+  addToHistory(text, isError = false) {
+    if (!this.history) return;
+    
+    const line = document.createElement('div');
+    line.textContent = text;
+    if (isError) line.classList.add('text-red-400');
+    
+    this.history.appendChild(line);
+    this.history.scrollTop = this.history.scrollHeight;
+    
+    // Animate new line if gsap is available
+    if (typeof gsap !== 'undefined') {
+      gsap.from(line, {
+        opacity: 0,
+        x: -20,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    }
+  }
+
+  executeCommand(commandString) {
+    const args = this.parseCommand(commandString);
+    const command = this.commands[args.command];
+    
+    if (command) {
+      command.action(args);
+    } else {
+      this.addToHistory(`Command not found: ${args.command}`, true);
+      this.addToHistory('Type "help" for available commands');
+    }
+  }
+
+  parseCommand(command) {
+    const parts = command.split(' ');
+    const result = { command: parts[0], args: {} };
+    
+    for (let i = 1; i < parts.length; i++) {
+      if (parts[i].startsWith('--')) {
+        const key = parts[i].substring(2);
+        let value = '';
+        
+        // Handle quoted strings
+        if (parts[i + 1] && parts[i + 1].startsWith('"')) {
+          let j = i + 1;
+          while (j < parts.length) {
+            if (j === i + 1) {
+              value = parts[j].substring(1); // Remove opening quote
+            } else {
+              value += ' ' + parts[j];
+            }
+            
+            if (parts[j].endsWith('"')) {
+              value = value.slice(0, -1); // Remove closing quote
+              break;
+            }
+            j++;
+          }
+          i = j;
+        } else if (parts[i + 1] && !parts[i + 1].startsWith('--')) {
+          value = parts[i + 1];
+          i++;
+        }
+        
+        result.args[key] = value;
+      }
+    }
+    
+    return result;
+  }
+
+  showHelp() {
+    if (this.helpPanel) {
+      this.helpPanel.classList.remove('hidden');
+      if (typeof gsap !== 'undefined') {
+        gsap.from(this.helpPanel, {
+          opacity: 0,
+          y: 20,
+          duration: 0.5,
+          ease: "power2.out"
+        });
+      }
+    }
+  }
+
+  clearHistory() {
+    if (!this.history) return;
+    
+    if (typeof gsap !== 'undefined') {
+      gsap.to(this.history.children, {
+        opacity: 0,
+        x: -50,
+        duration: 0.3,
+        stagger: 0.05,
+        onComplete: () => {
+          this.history.innerHTML = '';
+          if (this.helpPanel) this.helpPanel.classList.add('hidden');
+        }
+      });
+    } else {
+      this.history.innerHTML = '';
+      if (this.helpPanel) this.helpPanel.classList.add('hidden');
+    }
+  }
+
+  showStatus(message, className) {
+    if (!this.status) return;
+    
+    this.status.textContent = message;
+    this.status.className = `mt-4 min-h-6 ${className}`;
+    
+    if (typeof gsap !== 'undefined') {
+      gsap.from(this.status, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: "back.out(1.7)"
+      });
+    }
+    
+    // Clear status after 3 seconds
+    setTimeout(() => {
+      if (typeof gsap !== 'undefined') {
+        gsap.to(this.status, {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            this.status.textContent = '';
+            this.status.className = 'mt-4 min-h-6';
+          }
+        });
+      } else {
+        this.status.textContent = '';
+        this.status.className = 'mt-4 min-h-6';
+      }
+    }, 3000);
+  }
+}
+
+// Make Terminal available globally
+window.Terminal = Terminal;
+</script>
+
+<style>
+  /* Custom scrollbar for terminal history */
+  #terminal-history::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #terminal-history::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  #terminal-history::-webkit-scrollbar-thumb {
+    background: #10b981;
+    border-radius: 4px;
+  }
+
+  #terminal-history::-webkit-scrollbar-thumb:hover {
+    background: #059669;
+  }
+</style>

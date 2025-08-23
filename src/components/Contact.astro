@@ -1,0 +1,81 @@
+---
+// filepath: c:\Users\alexi\Documents\PROJECTS\Portafolio_principal\portfolio\src\components\TerminalContact.astro
+import Terminal from './Terminal.astro';
+---
+
+<section
+  id="contact"
+  class="bg-black min-h-screen py-16 px-4 flex items-center justify-center"
+>
+  <Terminal 
+    title="~/contact-terminal"
+    prompt="alexis@portfolio:~/contact$"
+    welcomeMessages={[
+      "Welcome to Contact Terminal v1.0",
+      "Type 'help' for available commands",
+      'Or use: contact --name "Your Name" --email "your@email.com" --message "Your message"'
+    ]}
+  />
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('terminal-input') && window.Terminal) {
+    const contactCommands = {
+      about: {
+        description: 'Show information about me',
+        action: (args) => {
+          const terminal = new window.Terminal();
+          const aboutText = [
+            'Alexis Sotomayor - Full Stack Developer',
+            'Specialized in: Python, React, AWS, AI/ML',
+            'Location: Remote',
+            'Status: Available for opportunities'
+          ];
+          
+          aboutText.forEach((text, index) => {
+            setTimeout(() => {
+              terminal.addToHistory(text);
+            }, index * 200);
+          });
+        }
+      },
+      contact: {
+        description: 'Send contact message: contact --name "Name" --email "email" --message "message"',
+        action: (args) => {
+          const terminal = new window.Terminal();
+          const { name, email, message } = args.args;
+          
+          if (!name || !email || !message) {
+            terminal.addToHistory('Error: Missing required parameters', true);
+            terminal.addToHistory('Usage: contact --name "Your Name" --email "your@email.com" --message "Your message"');
+            return;
+          }
+
+          // Validate email
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            terminal.addToHistory('Error: Invalid email format', true);
+            return;
+          }
+
+          // Simulate sending message
+          terminal.addToHistory('Sending message...');
+          terminal.showStatus('Processing...', 'text-yellow-400');
+          
+          setTimeout(() => {
+            terminal.addToHistory(`Message sent successfully from ${name} (${email})`);
+            terminal.addToHistory('Thank you for your message! I\'ll get back to you soon.');
+            terminal.showStatus('Message sent! ✓', 'text-green-400');
+            
+            // Here you would actually send the email
+            console.log('Contact form data:', { name, email, message });
+          }, 1500);
+        }
+      }
+    };
+
+    new window.Terminal(contactCommands);
+  }
+});
+</script>
