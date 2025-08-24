@@ -39,3 +39,104 @@
     </p>
   </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // Registrar el plugin ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  console.log("GSAP loaded:", gsap.version);
+
+  // Función para calcular el desplazamiento responsive
+  function getResponsiveOffset() {
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth < 480) {
+      return windowWidth * 0.3;
+    } else if (windowWidth < 768) {
+      return windowWidth * 0.25;
+    } else if (windowWidth < 1024) {
+      return windowWidth * 0.2;
+    } else {
+      return 300;
+    }
+  }
+
+  // Función para calcular separación del texto de fondo
+  function getBackgroundSeparation() {
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth < 480) {
+      return windowWidth * 0.4; // 40% en móvil
+    } else if (windowWidth < 768) {
+      return windowWidth * 0.5; // 50% en tablet
+    } else {
+      return 600; // Valor fijo para desktop
+    }
+  }
+
+  // Función para inicializar las animaciones
+  function initAnimations() {
+    const offset = getResponsiveOffset();
+    const separation = getBackgroundSeparation();
+
+    // Animación inicial del título
+    let tl = gsap.timeline();
+
+    tl.set("#titulo", {
+      autoAlpha: 0,
+      x: -offset,
+    }).to("#titulo", {
+      duration: 1.2,
+      autoAlpha: 1,
+      x: 0,
+      ease: "power2.out",
+    });
+
+    // Animación de separación del texto de fondo al hacer scroll
+    gsap.to("#back-text", {
+      x: -separation,
+      duration: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "section", // El elemento que activa la animación
+        start: "top top",
+        end: "bottom top",
+        scrub: 1, // Vincula la animación al progreso del scroll
+        pin: false,
+      },
+    });
+
+    gsap.to("#end-text", {
+      x: separation,
+      duration: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "section",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        pin: false,
+      },
+    });
+  }
+
+  // Ejecutar animaciones al cargar
+  window.addEventListener("DOMContentLoaded", initAnimations);
+
+  // Reajustar animaciones al cambiar tamaño de pantalla
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      // Limpiar animaciones anteriores
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      gsap.set("#titulo, #back-text, #end-text", { clearProps: "all" });
+
+      // Reiniciar animaciones con nuevos valores
+      initAnimations();
+    }, 250);
+  });
+</script>
