@@ -33,12 +33,19 @@ import Navbar from "../components/Navbar.astro";
     overscroll-behavior: none;
     margin: 0;
     width: 100%;
-    min-height: 100vh; /* no forzar 300vh */
+    min-height: 100vh;
     box-sizing: border-box;
   }
 
+  .terminal, .scrollable {
+    overflow: visible !important;
+    height: auto !important;
+  }
+
   /* It should prevent common containers from creating unexpected scroll */
-  main, section, .container {
+  main,
+  section,
+  .container {
     overflow: visible;
   }
 </style>

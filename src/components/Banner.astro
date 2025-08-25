@@ -7,19 +7,21 @@
 >
   <!-- Texto de fondo grande -->
   <div
-    class="absolute inset-0 flex items-center justify-between px-2 sm:px-8 select-none pointer-events-none"
+    class="absolute inset-0 flex items-center justify-center px-2 sm:px-8 select-none pointer-events-none"
   >
-    <div
-      id="back-text"
-      class="text-gray-600 font-black text-[6rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[20rem] leading-none opacity-20 sm:opacity-30 -translate-x-8 sm:-translate-x-12 md:-translate-x-16"
-    >
-      BACK
-    </div>
-    <div
-      id="end-text"
-      class="text-gray-600 font-black text-[6rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[20rem] leading-none opacity-20 sm:opacity-30"
-    >
-      END
+    <div class="flex w-full max-w-5xl mx-auto justify-center">
+      <div
+        id="back-text"
+        class="text-gray-600 font-black text-[4.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] xl:text-[15rem] leading-none opacity-20 sm:opacity-30 -translate-x-4 sm:-translate-x-8 md:-translate-x-12 pointer-events-auto"
+      >
+        BACK
+      </div>
+      <div
+        id="end-text"
+        class="text-gray-600 font-black text-[4.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] xl:text-[15rem] leading-none opacity-20 sm:opacity-30 translate-x-4 sm:translate-x-8 md:translate-x-12 pointer-events-auto"
+      >
+        END
+      </div>
     </div>
   </div>
 
@@ -34,9 +36,6 @@
     <p class="text-gray-300 text-base sm:text-lg md:text-xl mb-2">
       Full Stack Developer | AI Enthusiast
     </p>
-    <p class="text-gray-400 text-sm sm:text-base">
-      Python • React • AWS • AI/ML
-    </p>
   </div>
 </section>
 
@@ -48,6 +47,43 @@
   gsap.registerPlugin(ScrollTrigger);
 
   console.log("GSAP loaded:", gsap.version);
+
+  // Función para convertir texto en spans individuales y aplicar efecto hover
+  function wrapLetters(elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const text = element.innerText;
+    element.innerHTML = "";
+
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement("span");
+      span.className = "letter";
+      span.innerText = text[i];
+      element.appendChild(span);
+
+      // Añadir efecto hover con GSAP
+      span.addEventListener("mouseenter", () => {
+        gsap.to(span, {
+          color: "#ffffff",
+          textShadow:
+            "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.3)",
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+
+      span.addEventListener("mouseleave", () => {
+        gsap.to(span, {
+          color: "",
+          textShadow: "none",
+          duration: 0.3,
+          ease: "power2.out",
+          clearProps: "color,textShadow", // Importante para restaurar al color original
+        });
+      });
+    }
+  }
 
   // Función para calcular el desplazamiento responsive
   function getResponsiveOffset() {
@@ -82,6 +118,11 @@
     const offset = getResponsiveOffset();
     const separation = getBackgroundSeparation();
 
+    // Aplicar efecto de letras individuales
+    wrapLetters("back-text");
+    wrapLetters("end-text");
+    wrapLetters("dev-text");
+
     // Animación inicial del título
     let tl = gsap.timeline();
 
@@ -101,16 +142,30 @@
       duration: 1,
       ease: "none",
       scrollTrigger: {
-        trigger: "section", // El elemento que activa la animación
+        trigger: "section",
         start: "top top",
         end: "bottom top",
-        scrub: 1, // Vincula la animación al progreso del scroll
+        scrub: 1,
         pin: false,
       },
     });
 
     gsap.to("#end-text", {
       x: separation,
+      duration: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "section",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        pin: false,
+      },
+    });
+
+    // Opcional: Añadir animación para el nuevo texto "DEVELOPER"
+    gsap.to("#dev-text", {
+      y: separation / 2,
       duration: 1,
       ease: "none",
       scrollTrigger: {
@@ -133,7 +188,9 @@
     resizeTimeout = setTimeout(() => {
       // Limpiar animaciones anteriores
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      gsap.set("#titulo, #back-text, #end-text", { clearProps: "all" });
+      gsap.set("#titulo, #back-text, #end-text, #dev-text", {
+        clearProps: "all",
+      });
 
       // Reiniciar animaciones con nuevos valores
       initAnimations();
