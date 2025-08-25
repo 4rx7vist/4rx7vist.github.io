@@ -6,9 +6,19 @@
   class="bg-black text-white px-4 sm:px-6 py-4 flex justify-between items-center shadow-md"
 >
   <div class="text-lg sm:text-xl font-bold flex flex-col leading-tight">
-    <span class="text-xs sm:text-sm font-normal">4rx7vist</span>
+    <span class="text-xs sm:text-sm font-normal">Developer Portfolio</span>
+    <span class="text-sm sm:text-base">Alexis Sotomayor</span>
   </div>
-  
+
+  <div class="flex-1 flex justify-center">
+    <span
+      id="pseudo"
+      class="text-base sm:text-lg font-mono font-semibold tracking-widest select-none"
+    >
+      <span class="text-content"></span><span class="cursor">|</span>
+    </span>
+  </div>
+
   <div class="flex items-center gap-3">
     <a
       href="#contact"
@@ -19,3 +29,83 @@
     </a>
   </div>
 </nav>
+
+<style>
+  .cursor {
+    animation: blink 0.7s step-end infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Importar GSAP y TextPlugin
+  import { gsap } from "gsap";
+  import { TextPlugin } from "gsap/TextPlugin";
+  
+  // Registrar el plugin
+  gsap.registerPlugin(TextPlugin);
+  
+  // Función que ejecuta la animación
+  function runAnimation() {
+    console.log("Ejecutando animación");
+    
+    // Seleccionar el elemento
+    const textElement = document.querySelector("#pseudo .text-content");
+    
+    // Verificar que el elemento existe
+    if (!textElement) {
+      console.error("Elemento #pseudo .text-content no encontrado");
+      
+      // Si no existe, reintentamos después
+      setTimeout(runAnimation, 500);
+      return;
+    }
+    
+    console.log("Elemento encontrado:", textElement);
+    
+    // Texto que queremos animar
+    const text = "4rx7vist";
+    
+    // Configurar la animación
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+    
+    // Asegurarse de que empieza vacío
+    gsap.set(textElement, { text: "" });
+    
+    // Animación de escritura
+    tl.to(textElement, {
+      text: text,
+      duration: text.length * 0.15,
+      ease: "none",
+      onStart: () => console.log("Comenzando a escribir"),
+      onComplete: () => console.log("Escritura completa")
+    })
+    .to({}, { duration: 1 }) // Pausa
+    .to(textElement, {
+      text: "",
+      duration: text.length * 0.08,
+      ease: "none",
+      onStart: () => console.log("Comenzando a borrar"),
+      onComplete: () => console.log("Borrado completo")
+    })
+    .to({}, { duration: 0.5 }); // Pausa
+    
+    console.log("Animación configurada");
+  }
+  
+  // Ejecutar cuando el DOM esté listo
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM cargado, iniciando animación");
+    runAnimation();
+  });
+  
+  // Si el documento ya está cargado, ejecutar inmediatamente
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    console.log("DOM ya cargado, iniciando animación inmediatamente");
+    setTimeout(runAnimation, 100);
+  }
+</script>
