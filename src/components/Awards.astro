@@ -1,0 +1,539 @@
+---
+const awards = [
+  {
+    title: "Flipkart Grid 6.0",
+    description: "Top 20 All India, Information Security Track (2024)",
+    details: "Competed among thousands of participants nationwide, securing a position in the top 20 for cybersecurity innovation."
+  },
+  {
+    title: "IIT-Bombay",
+    description: "National Finalist, UNESCO Supply Connect (2024)",
+    details: "Developed sustainable supply chain solutions addressing global logistics challenges."
+  },
+  {
+    title: "SAP Hackfest",
+    description: "National Finalist, High-Availability Platform Design (2024)",
+    details: "Designed enterprise-grade systems with 99.9% uptime guarantee and fault tolerance."
+  },
+  {
+    title: "Google Code-In",
+    description: "International Finisher (2017, 2019) for Open-Source",
+    details: "Contributed to multiple open-source projects, completing complex development tasks."
+  },
+  {
+    title: "NatWest Group",
+    description: "Software Engineer Intern (2025 - Present)",
+    details: "Developing banking solutions with modern tech stack and agile methodologies."
+  },
+  {
+    title: "Velocita Racing",
+    description: "Software Lead / Operations Manager (2023 - Present)",
+    details: "Leading technical development and operational efficiency for racing team systems."
+  },
+  {
+    title: "Samsung R&D",
+    description: "Research Scholar (Intern) (2024 - 2025)",
+    details: "Conducting advanced research in mobile technologies and user experience innovation."
+  },
+  {
+    title: "App Mastery",
+    description: "Junior Software Development Engineer (Intern) (2024)",
+    details: "Built scalable mobile applications serving thousands of daily active users."
+  }
+];
+---
+<section class="bg-black text-white py-12 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h3 class="text-xs text-gray-400 font-semibold tracking-wider mb-6">AWARDS X RECOGNITION</h3>
+
+    <!-- Achievements Visualization -->
+    <div id="achievements-container" class="w-full bg-[#111111] rounded-md p-8 mb-8 relative">
+      <svg id="achievements-svg" class="w-full h-96" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+        <!-- Central circle will be created by JS -->
+      </svg>
+      
+      <!-- Info panel for selected achievement -->
+      <div id="achievement-info" class="absolute top-4 right-4 max-w-sm bg-gray-900 rounded-lg p-4 opacity-0 transform translate-x-4 transition-all duration-300 pointer-events-none">
+        <h4 id="info-title" class="text-lg font-semibold text-white mb-2"></h4>
+        <p id="info-description" class="text-sm text-gray-300 mb-2"></p>
+        <p id="info-details" class="text-xs text-gray-400"></p>
+      </div>
+      
+      <div class="mt-4 text-center text-sm text-gray-400">Haz click en cualquier logro para ver los detalles</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .achievement-node {
+    cursor: pointer;
+    transition: filter 0.3s ease;
+  }
+  
+  .achievement-node:hover {
+    filter: brightness(1.2);
+  }
+  
+  .achievement-active {
+    filter: drop-shadow(0 0 20px rgba(99,102,241,0.6));
+  }
+  
+  .neural-pulse {
+    animation: neuralPulse 0.5s ease-in-out;
+    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8)) !important;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  
+  @keyframes neuralPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .achievement-center-glow {
+    animation: centerGlow 3s ease-in-out infinite;
+  }
+  
+  @keyframes centerGlow {
+    0%, 100% { 
+      filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+    }
+    50% { 
+      filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
+    }
+  }
+  
+  .dragging {
+    z-index: 1000;
+    cursor: grabbing !important;
+  }
+  
+  .achievement-node {
+    cursor: grab;
+  }
+  
+  .achievement-node:active {
+    cursor: grabbing;
+  }
+</style>
+
+<script>
+  // Load GSAP from CDN and create achievements visualization
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+  script.onload = function() {
+    console.log('GSAP loaded successfully');
+    initAchievements();
+  };
+  document.head.appendChild(script);
+
+  function initAchievements() {
+    const awards = [
+      {
+        title: "Flipkart Grid 6.0",
+        description: "Top 20 All India, Information Security Track (2024)",
+        details: "Competed among thousands of participants nationwide, securing a position in the top 20 for cybersecurity innovation."
+      },
+      {
+        title: "IIT-Bombay",
+        description: "National Finalist, UNESCO Supply Connect (2024)",
+        details: "Developed sustainable supply chain solutions addressing global logistics challenges."
+      },
+      {
+        title: "SAP Hackfest",
+        description: "National Finalist, High-Availability Platform Design (2024)",
+        details: "Designed enterprise-grade systems with 99.9% uptime guarantee and fault tolerance."
+      },
+      {
+        title: "Google Code-In",
+        description: "International Finisher (2017, 2019) for Open-Source",
+        details: "Contributed to multiple open-source projects, completing complex development tasks."
+      },
+      {
+        title: "NatWest Group",
+        description: "Software Engineer Intern (2025 - Present)",
+        details: "Developing banking solutions with modern tech stack and agile methodologies."
+      },
+      {
+        title: "Velocita Racing",
+        description: "Software Lead / Operations Manager (2023 - Present)",
+        details: "Leading technical development and operational efficiency for racing team systems."
+      },
+      {
+        title: "Samsung R&D",
+        description: "Research Scholar (Intern) (2024 - 2025)",
+        details: "Conducting advanced research in mobile technologies and user experience innovation."
+      },
+      {
+        title: "App Mastery",
+        description: "Junior Software Development Engineer (Intern) (2024)",
+        details: "Built scalable mobile applications serving thousands of daily active users."
+      }
+    ];
+
+    function createAchievementsViz() {
+      const svg = document.getElementById('achievements-svg');
+      const infoPanel = document.getElementById('achievement-info');
+      const infoTitle = document.getElementById('info-title');
+      const infoDescription = document.getElementById('info-description');
+      const infoDetails = document.getElementById('info-details');
+      
+      if (!svg) {
+        console.warn('SVG element not found');
+        return;
+      }
+
+      // Clear existing content
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+      const centerX = 400;
+      const centerY = 300;
+      const radius = 180;
+      let activeNode = null;
+
+      // Create central circle
+      const centerGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      centerGroup.setAttribute('id', 'center-node');
+      centerGroup.setAttribute('class', 'achievement-center-glow');
+
+      const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      centerCircle.setAttribute('cx', centerX);
+      centerCircle.setAttribute('cy', centerY);
+      centerCircle.setAttribute('r', '60');
+      centerCircle.setAttribute('fill', '#6366f1');
+      centerCircle.setAttribute('stroke', '#4f46e5');
+      centerCircle.setAttribute('stroke-width', '3');
+      centerCircle.setAttribute('class', 'center-circle');
+
+      const centerText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      centerText.setAttribute('x', centerX);
+      centerText.setAttribute('y', centerY);
+      centerText.setAttribute('text-anchor', 'middle');
+      centerText.setAttribute('dominant-baseline', 'middle');
+      centerText.setAttribute('fill', 'white');
+      centerText.setAttribute('font-size', '14');
+      centerText.setAttribute('font-weight', 'bold');
+      centerText.textContent = 'ACHIEVEMENTS';
+
+      centerGroup.appendChild(centerCircle);
+      centerGroup.appendChild(centerText);
+      svg.appendChild(centerGroup);
+
+      // Create award nodes around the center
+      const nodes = [];
+      awards.forEach((award, index) => {
+        const angle = (index / awards.length) * Math.PI * 2;
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+
+        const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        nodeGroup.setAttribute('class', 'achievement-node');
+        nodeGroup.setAttribute('data-index', index);
+
+        // Connection line (initially hidden)
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', centerX);
+        line.setAttribute('y1', centerY);
+        line.setAttribute('x2', x);
+        line.setAttribute('y2', y);
+        line.setAttribute('stroke', '#60a5fa');
+        line.setAttribute('stroke-width', '0');
+        line.setAttribute('opacity', '0');
+        line.setAttribute('class', 'connection-line');
+
+        // Award circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', '25');
+        circle.setAttribute('fill', '#374151');
+        circle.setAttribute('stroke', '#6b7280');
+        circle.setAttribute('stroke-width', '2');
+        circle.style.cursor = 'grab';
+
+        // Award number
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x);
+        text.setAttribute('y', y);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'middle');
+        text.setAttribute('fill', 'white');
+        text.setAttribute('font-size', '12');
+        text.setAttribute('font-weight', 'bold');
+        text.textContent = (index + 1).toString();
+        text.style.pointerEvents = 'none';
+
+        svg.appendChild(line);
+        nodeGroup.appendChild(circle);
+        nodeGroup.appendChild(text);
+        svg.appendChild(nodeGroup);
+
+        const nodeData = { 
+          group: nodeGroup, 
+          circle, 
+          text,
+          line, 
+          award, 
+          index,
+          originalX: x,
+          originalY: y,
+          isDragging: false
+        };
+        nodes.push(nodeData);
+
+        // Make draggable with GSAP
+        if (window.gsap && window.gsap.registerPlugin) {
+          makeNodeDraggable(nodeData);
+        } else {
+          // Fallback for click
+          nodeGroup.addEventListener('click', () => {
+            if (!nodeData.isDragging) {
+              if (activeNode === index) {
+                deactivateNode();
+              } else {
+                activateNode(index);
+              }
+            }
+          });
+        }
+      });
+
+      function makeNodeDraggable(nodeData) {
+        const { group, circle, text, line, index } = nodeData;
+        let startX, startY, isDragging = false;
+        
+        // Mouse/Touch event handlers
+        function onStart(e) {
+          isDragging = true;
+          nodeData.isDragging = true;
+          circle.style.cursor = 'grabbing';
+          
+          const rect = svg.getBoundingClientRect();
+          startX = (e.clientX || e.touches[0].clientX) - rect.left;
+          startY = (e.clientY || e.touches[0].clientY) - rect.top;
+          
+          // Add glow effect
+          circle.classList.add('neural-pulse');
+          
+          // Animate on drag start
+          if (window.gsap) {
+            window.gsap.to(circle, {
+              duration: 0.2,
+              attr: { r: 35 },
+              ease: 'power2.out'
+            });
+          }
+          
+          e.preventDefault();
+        }
+        
+        function onMove(e) {
+          if (!isDragging) return;
+          
+          const rect = svg.getBoundingClientRect();
+          const currentX = (e.clientX || e.touches[0].clientX) - rect.left;
+          const currentY = (e.clientY || e.touches[0].clientY) - rect.top;
+          
+          // Convert to SVG coordinates
+          const svgX = (currentX / rect.width) * 800;
+          const svgY = (currentY / rect.height) * 600;
+          
+          // Update circle position
+          circle.setAttribute('cx', svgX);
+          circle.setAttribute('cy', svgY);
+          text.setAttribute('x', svgX);
+          text.setAttribute('y', svgY);
+          
+          // Update connection line
+          line.setAttribute('x2', svgX);
+          line.setAttribute('y2', svgY);
+          
+          // Calculate distance from center for dynamic effects
+          const distanceFromCenter = Math.sqrt(Math.pow(svgX - centerX, 2) + Math.pow(svgY - centerY, 2));
+          
+          // Dynamic connection visibility and center effects
+          if (distanceFromCenter < 120) {
+            if (window.gsap) {
+              window.gsap.to(line, { duration: 0.1, opacity: 0.8, attr: { 'stroke-width': 4 } });
+              window.gsap.to(circle, { duration: 0.1, attr: { fill: '#6366f1' } });
+              
+              // Make center pulse when node is near
+              window.gsap.to(centerCircle, { 
+                duration: 0.1, 
+                attr: { r: 70 },
+                ease: 'power2.out'
+              });
+            }
+          } else {
+            if (window.gsap) {
+              window.gsap.to(line, { duration: 0.1, opacity: 0.3, attr: { 'stroke-width': 2 } });
+              window.gsap.to(circle, { duration: 0.1, attr: { fill: '#374151' } });
+              
+              // Reset center size
+              window.gsap.to(centerCircle, { 
+                duration: 0.2, 
+                attr: { r: 60 },
+                ease: 'power2.out'
+              });
+            }
+          }
+          
+          e.preventDefault();
+        }
+        
+        function onEnd(e) {
+          if (!isDragging) return;
+          isDragging = false;
+          nodeData.isDragging = false;
+          circle.style.cursor = 'grab';
+          circle.classList.remove('neural-pulse');
+          
+          const rect = svg.getBoundingClientRect();
+          const currentX = (e.clientX || e.changedTouches[0].clientX) - rect.left;
+          const currentY = (e.clientY || e.changedTouches[0].clientY) - rect.top;
+          
+          const svgX = (currentX / rect.width) * 800;
+          const svgY = (currentY / rect.height) * 600;
+          
+          // Check if dropped near center (activation zone)
+          const distanceFromCenter = Math.sqrt(Math.pow(svgX - centerX, 2) + Math.pow(svgY - centerY, 2));
+          
+          if (distanceFromCenter < 120) {
+            // Activate achievement
+            activateNode(index);
+            // Snap back to original position with animation
+            snapBackToPosition(nodeData);
+          } else {
+            // Just snap back
+            snapBackToPosition(nodeData);
+          }
+          
+          // Reset connection line
+          if (window.gsap) {
+            window.gsap.to(line, { duration: 0.3, opacity: 0, attr: { 'stroke-width': 0 } });
+          }
+        }
+        
+        function snapBackToPosition(nodeData) {
+          if (window.gsap) {
+            window.gsap.to([nodeData.circle, nodeData.text], {
+              duration: 0.6,
+              attr: { cx: nodeData.originalX, cy: nodeData.originalY, x: nodeData.originalX, y: nodeData.originalY },
+              ease: 'elastic.out(1, 0.5)'
+            });
+            window.gsap.to(nodeData.circle, {
+              duration: 0.4,
+              attr: { r: 25, fill: '#374151' },
+              ease: 'power2.out'
+            });
+          }
+        }
+        
+        // Add event listeners
+        group.addEventListener('mousedown', onStart);
+        group.addEventListener('touchstart', onStart);
+        
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchmove', onMove);
+        
+        document.addEventListener('mouseup', onEnd);
+        document.addEventListener('touchend', onEnd);
+        
+        // Hover effects when not dragging
+        group.addEventListener('mouseenter', () => {
+          if (!isDragging && window.gsap) {
+            window.gsap.to(circle, { duration: 0.2, attr: { r: 30 }, ease: 'power2.out' });
+          }
+        });
+        
+        group.addEventListener('mouseleave', () => {
+          if (!isDragging && window.gsap) {
+            window.gsap.to(circle, { duration: 0.2, attr: { r: 25 }, ease: 'power2.out' });
+          }
+        });
+      }
+
+      function activateNode(index) {
+        const node = nodes[index];
+        activeNode = index;
+
+        // Reset all nodes first
+        nodes.forEach(n => {
+          n.group.classList.remove('achievement-active');
+          if (window.gsap) {
+            window.gsap.to(n.circle, { duration: 0.3, attr: { r: 25, fill: '#374151' } });
+            window.gsap.to(n.line, { duration: 0.3, attr: { 'stroke-width': 0 }, opacity: 0 });
+          }
+        });
+
+        // Activate selected node
+        node.group.classList.add('achievement-active');
+        
+        if (window.gsap) {
+          // Neural activation animation
+          window.gsap.timeline()
+            .to(node.circle, { 
+              duration: 0.5, 
+              attr: { r: 35, fill: '#6366f1' },
+              ease: 'back.out(1.7)'
+            })
+            .to(node.line, { 
+              duration: 0.8, 
+              attr: { 'stroke-width': 4 }, 
+              opacity: 1,
+              ease: 'power2.out'
+            }, '-=0.3')
+            .to(centerCircle, {
+              duration: 0.4,
+              attr: { r: 70 },
+              ease: 'power2.out'
+            }, '-=0.5');
+
+          // Show info panel
+          window.gsap.to(infoPanel, {
+            duration: 0.4,
+            opacity: 1,
+            x: 0,
+            ease: 'power2.out'
+          });
+        }
+
+        // Update info panel
+        infoTitle.textContent = node.award.title;
+        infoDescription.textContent = node.award.description;
+        infoDetails.textContent = node.award.details;
+      }
+
+      function deactivateNode() {
+        activeNode = null;
+        
+        nodes.forEach(n => {
+          n.group.classList.remove('achievement-active');
+          if (window.gsap) {
+            window.gsap.to(n.circle, { duration: 0.3, attr: { r: 25, fill: '#374151' } });
+            window.gsap.to(n.line, { duration: 0.3, attr: { 'stroke-width': 0 }, opacity: 0 });
+          }
+        });
+
+        if (window.gsap) {
+          window.gsap.to(centerCircle, { duration: 0.3, attr: { r: 60 } });
+          window.gsap.to(infoPanel, { duration: 0.3, opacity: 0, x: 20 });
+        }
+      }
+
+      console.log('Achievements visualization created with', awards.length, 'awards');
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', createAchievementsViz);
+    } else {
+      createAchievementsViz();
+    }
+  }
+</script>

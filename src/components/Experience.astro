@@ -18,7 +18,7 @@ const volunteering = [
     organization: "Banco De Alimentos Quito. BAQ",
     role: "Backend Developer",
     period: "2024 - Present",
-    description: "Design a microservice to support their mobile application, focusing on the efficient development and management of a RESTful API. ",
+    description: "Design a microservice to support their mobile application, focusing on the efficient development and management of a RESTful API.",
     achievements: [
       "Implemented optimized input routes and integrated PostgreSQL to ensure structured, reliable data storage.",
       "Created comprehensive technical documentation to support the API's usability and long-term maintenance.",
@@ -34,103 +34,73 @@ const volunteering = [
   }
 ];
 
-// Combinar ambos arrays para el timeline
 const timelineItems = [
   ...experiences.map(exp => ({ ...exp, type: 'professional' })),
   ...volunteering.map(vol => ({ ...vol, type: 'volunteering' }))
 ].sort((a, b) => {
-  // Ordenar por año (extraer el año del período)
   const yearA = parseInt(a.period.split(' - ')[0]);
   const yearB = parseInt(b.period.split(' - ')[0]);
-  return yearB - yearA; // Más reciente primero
+  return yearB - yearA;
 });
----
 
+// Normalizar campos para evitar checks de tipo en el template
+const normalizedTimelineItems = timelineItems.map(item => ({
+  ...item,
+  title: item.position ?? item.role ?? item.organization ?? item.company ?? '',
+  subtitle: item.company ?? item.organization ?? ''
+}));
+---
 <section class="bg-black py-20 px-4 relative overflow-hidden">
-  <!-- Texto de fondo grande similar al banner -->
-  <div class="absolute inset-0 flex items-center justify-center select-none pointer-events-none">
-  </div>
+  <!-- fondo decorativo eliminado -->
 
   <div class="max-w-6xl mx-auto relative z-10">
-    <!-- Título de sección -->
     <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-5xl font-bold text-white mb-4" id="exp-title">
-        Experience
-      </h2>
-      <p class="text-gray-400 text-lg" id="exp-subtitle">
-        Professional Journey & Contributions
-      </p>
+      <h2 class="text-3xl md:text-5xl font-bold text-white mb-4" id="exp-title">Experience</h2>
+      <p class="text-gray-400 text-lg" id="exp-subtitle">Professional Journey & Contributions</p>
     </div>
 
-    <!-- Timeline Container -->
     <div class="relative">
-      <!-- Línea vertical principal -->
-      <div 
-        id="timeline-line" 
-        class="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 opacity-60"
-        style="height: 0;"
+      <!-- Línea vertical rainbow animable -->
+      <div
+        id="timeline-line"
+        class="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 w-1.5 rounded-lg opacity-90"
+        style="height: 0; background: linear-gradient(180deg, #ff4d4d 0%, #ff9a4d 20%, #ffd24d 40%, #6eff6e 60%, #4dd7ff 80%, #9b63ff 100%); background-size: 100% 200%;"
       ></div>
 
-      <!-- Timeline Items -->
       <div class="space-y-12 md:space-y-16">
-        {timelineItems.map((item, index) => (
-          <div 
-            class={`timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 ${
-              index % 2 === 0 ? 'md:flex-row-reverse' : ''
-            }`}
+        {normalizedTimelineItems.map((item, index) => (
+          <div
+            class={`timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
             data-index={index}
           >
-            <!-- Timeline Dot -->
-            <div class="timeline-dot absolute left-6 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg border-4 border-[#262626] z-10"></div>
-
-            <!-- Contenido -->
-            <div class={`timeline-content flex-1 ml-16 md:ml-0 ${
-              index % 2 === 0 ? 'md:text-right md:pr-8' : 'md:pl-8'
-            }`}>
-              
-              <!-- Badge de tipo -->
-              <div class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold mb-3 ${
-                item.type === 'professional' 
-                  ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                  : 'bg-green-500/20 text-green-400 border border-green-500/30'
-              }`}>
-                {item.type === 'professional' ? '💼 Professional' : '🤝 Volunteering'}
+            <!-- Flecha (reemplaza dot) -->
+            <div
+              class={`timeline-dot absolute left-6 md:left-1/2 transform md:-translate-x-1/2 z-10 flex items-center justify-center pointer-events-auto`}
+              data-side={index % 2 === 0 ? 'left' : 'right'}
+            >
+              <div class="timeline-arrow w-10 h-10 flex items-center justify-center rounded-md bg-[#262626] border-4 border-black shadow-lg">
+                <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M6 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
-
-              <!-- Company/Organization -->
-              <h3 class="text-xl md:text-2xl font-bold text-white mb-1">
-                {item.company || item.organization}
-              </h3>
-
-              <!-- Position/Role -->
-              <h4 class="text-lg text-blue-400 font-semibold mb-2">
-                {item.position || item.role}
-              </h4>
-
-              <!-- Period -->
-              <div class="text-gray-400 text-sm mb-4 font-mono">
-                {item.period}
-              </div>
-
-              <!-- Description -->
-              <p class="text-gray-300 text-base mb-4 leading-relaxed">
-                {item.description}
-              </p>
-
-              <!-- Achievements -->
-              {item.achievements && item.achievements.length > 0 && (
-                <ul class="space-y-2">
-                  {item.achievements.map((achievement) => (
-                    <li class="text-gray-400 text-sm flex items-start gap-2">
-                      <span class="text-purple-400 mt-1">▸</span>
-                      <span>{achievement}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
 
-            <!-- Spacer invisible para balance en desktop -->
+            <!-- Contenido del item -->
+            <div class={`timeline-content flex-1 ml-16 md:ml-0 ${index % 2 === 0 ? 'md:text-right md:pr-8' : 'md:pl-8'}`}>
+              <div class="text-sm text-gray-400">{item.period}</div>
+              <h3 class="text-lg md:text-2xl font-semibold text-white mt-1">{item.title}</h3>
+              <div class="text-base text-gray-300">{item.subtitle}</div>
+              <p class="text-gray-400 mt-2">{item.description}</p>
+
+              {item.achievements && item.achievements.length > 0 ? (
+                <ul class="mt-3 list-disc list-inside text-gray-400 space-y-1">
+                  {item.achievements.map((ach) => <li>{ach}</li>)}
+                </ul>
+              ) : null}
+            </div>
+
+            <!-- Spacer para balance en desktop -->
             <div class="hidden md:block flex-1"></div>
           </div>
         ))}
@@ -139,6 +109,32 @@ const timelineItems = [
   </div>
 </section>
 
+<style>
+  .timeline-dot { width: 44px; height: 44px; pointer-events: auto; }
+  .timeline-dot[data-side="right"] .timeline-arrow svg {
+    transform: rotate(180deg);
+  }
+
+  .timeline-arrow {
+    transition: transform .25s ease, box-shadow .25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .timeline-arrow:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  }
+
+  /* Ajustes responsivos para que la línea no tape contenido en mobile */
+  @media (max-width: 767px) {
+    #timeline-line { left: 1rem !important; transform: none !important; }
+    .timeline-dot { left: 1rem !important; transform: none !important; }
+    .timeline-content { margin-left: 4.5rem !important; }
+  }
+</style>
+
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -146,7 +142,7 @@ const timelineItems = [
   gsap.registerPlugin(ScrollTrigger);
 
   function initExperienceAnimations() {
-    // Animación inicial del título
+    // Título
     const titleTl = gsap.timeline({
       scrollTrigger: {
         trigger: "#exp-title",
@@ -157,48 +153,40 @@ const timelineItems = [
     });
 
     titleTl
-      .from("#exp-title", {
-        duration: 1,
-        y: 50,
-        opacity: 0,
-        ease: "power2.out"
-      })
-      .from("#exp-subtitle", {
-        duration: 0.8,
-        y: 30,
-        opacity: 0,
-        ease: "power2.out"
-      }, "-=0.5");
+      .from("#exp-title", { duration: 1, y: 50, opacity: 0, ease: "power2.out" })
+      .from("#exp-subtitle", { duration: 0.8, y: 30, opacity: 0, ease: "power2.out" }, "-=0.5");
 
-    // Animación del texto de fondo (similar al banner)
-    gsap.to("#experience-bg-text", {
-      rotation: 45,
-      scale: 1.1,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#experience-bg-text",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1
-      }
-    });
+  // fondo decorativo eliminado (no hay elemento #experience-bg-text)
 
-    // Animación de la línea del timeline
-    gsap.to("#timeline-line", {
-      height: "100%",
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#timeline-line",
-        start: "top 80%",
-        end: "bottom 20%",
-        scrub: 1
-      }
-    });
+    // Línea rainbow: altura y desplazamiento del degradado
+    const line = document.getElementById("timeline-line");
+    if (line) {
+      gsap.to(line, {
+        height: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: line,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: 1
+        }
+      });
 
-    // Animación de cada item del timeline
-    const timelineItems = gsap.utils.toArray(".timeline-item");
-    
-    timelineItems.forEach((item, index) => {
+      gsap.to(line, {
+        backgroundPositionY: "200%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: line,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: 1
+        }
+      });
+    }
+
+    // Animación por item
+    const items = gsap.utils.toArray(".timeline-item");
+    items.forEach((item, index) => {
       const content = item.querySelector(".timeline-content");
       const dot = item.querySelector(".timeline-dot");
       const isEven = index % 2 === 0;
@@ -212,15 +200,8 @@ const timelineItems = [
         }
       });
 
-      // Animación del dot
-      itemTl.from(dot, {
-        duration: 0.6,
-        scale: 0,
-        opacity: 0,
-        ease: "back.out(1.7)"
-      });
+      itemTl.from(dot, { duration: 0.6, scale: 0, opacity: 0, ease: "back.out(1.7)" });
 
-      // Animación del contenido
       itemTl.from(content, {
         duration: 0.8,
         x: isEven && window.innerWidth >= 768 ? 50 : -50,
@@ -228,7 +209,6 @@ const timelineItems = [
         ease: "power2.out"
       }, "-=0.3");
 
-      // Animación de los achievements
       const achievements = content.querySelectorAll("li");
       if (achievements.length > 0) {
         itemTl.from(achievements, {
@@ -241,47 +221,29 @@ const timelineItems = [
       }
     });
 
-    // Efecto de hover en los items
-    timelineItems.forEach((item) => {
+    // Hover effects
+    items.forEach((item) => {
       const content = item.querySelector(".timeline-content");
       const dot = item.querySelector(".timeline-dot");
 
       item.addEventListener("mouseenter", () => {
-        gsap.to(dot, {
-          duration: 0.3,
-          scale: 1.2,
-          ease: "power2.out"
-        });
-        gsap.to(content, {
-          duration: 0.3,
-          y: -5,
-          ease: "power2.out"
-        });
+        gsap.to(dot, { duration: 0.25, scale: 1.12, ease: "power2.out" });
+        gsap.to(content, { duration: 0.25, y: -6, ease: "power2.out" });
       });
 
       item.addEventListener("mouseleave", () => {
-        gsap.to(dot, {
-          duration: 0.3,
-          scale: 1,
-          ease: "power2.out"
-        });
-        gsap.to(content, {
-          duration: 0.3,
-          y: 0,
-          ease: "power2.out"
-        });
+        gsap.to(dot, { duration: 0.25, scale: 1, ease: "power2.out" });
+        gsap.to(content, { duration: 0.25, y: 0, ease: "power2.out" });
       });
     });
   }
 
-  // Ejecutar cuando el DOM esté listo
   if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", initExperienceAnimations);
   } else {
     initExperienceAnimations();
   }
 
-  // Reajustar en resize
   let resizeTimeout;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
