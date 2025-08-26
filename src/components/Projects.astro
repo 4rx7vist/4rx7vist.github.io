@@ -5,25 +5,37 @@ const projects = [
     id: 1,
     title: "Banco de Alimentos Quito",
     description: "Donation management platform that streamlines and optimizes the donation flow through seamless integration with multiple payment gateways. The system connects with productivity tools such as Monday.com and other external services, enabling organizations to automate processes, track contributions in real time, and maximize the impact of their fundraising efforts.",
+    features: [
+    "60% reduction in donation processing time",
+    "Integration with 4 main payment gateways (international and national)",
+    "Automated reporting and real-time tracking",
+    "40% increase in donations received after implementation"
+    ],
     image: "images/baq.png",
-    technologies: ["Nextjs", "Nest.js", "Supabase", "Payment gateways"],
+    technologies: ["Nextjs", "Nest.js", "Supabase", "TypeScript", "Payment gateways"],
     category: "Organizations"
   },
   {
     id: 2,
+    title: "Management System for a Clinic",
+    description: "A comprehensive management system designed specifically for clinics, featuring patient management, appointment scheduling, and billing functionalities.",
+    features: [
+      "Patient and appointment management with automatic reminders",
+      "30% reduction in administrative errors",
+      "Integrated electronic billing",
+      "Statistics dashboard for decision making"
+    ],
+    image: "/images/odontologica.png",
+    technologies: ["React", "Node.js", "Express", "PostgreSQL"],
+    category: "Business"
+  },
+  {
+    id: 3,
     title: "Portfolio Website",
     description: "Personal portfolio website with smooth animations, responsive design, and SEO optimization.",
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop&crop=center",
     technologies: ["Astro", "GSAP", "Tailwind CSS", "TypeScript"],
     category: "Frontend"
-  },
-  {
-    id: 3,
-    title: "Management System for a Clinic",
-    description: "A comprehensive management system designed specifically for clinics, featuring patient management, appointment scheduling, and billing functionalities.",
-    image: "/images/odontologica.png",
-    technologies: ["React", "Node.js", "Express", "PostgreSQL"],
-    category: "Business"
   },
 ];
 ---
@@ -98,6 +110,14 @@ const projects = [
             <p class="project-description text-gray-300 leading-relaxed mb-6 text-sm">
               {project.description}
             </p>
+
+            {project.features && (
+              <ul class="project-features text-gray-400 text-xs mb-6 list-disc pl-5">
+                {project.features.map((feature) => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+            )}
 
             <!-- Technologies -->
             <div class="technologies flex flex-wrap gap-2">
