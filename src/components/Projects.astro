@@ -138,160 +138,198 @@ const projects = [
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Configuración principal de GSAP
-  gsap.set('.project-card', { opacity: 0, y: 100 });
-  gsap.set('.section-title', { opacity: 0, y: -50 });
-  gsap.set('.section-subtitle', { opacity: 0, y: 30 });
-
-  // Timeline para la animación del header
-  const headerTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.section-header',
-      start: 'top 80%',
-      end: 'bottom 60%',
-      toggleActions: 'play none none reverse'
+  function waitForElements(selector, callback) {
+    const elements = document.querySelectorAll(selector);
+    if (elements.length > 0) {
+      callback();
+      return;
     }
-  });
 
-  headerTl
-    .to('.section-title', {
+    const observer = new MutationObserver((mutations) => {
+      const elements = document.querySelectorAll(selector);
+      if (elements.length > 0) {
+        observer.disconnect();
+        callback();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  waitForElements('.project-card', () => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Configuración principal de GSAP
+    gsap.set('.project-card', { opacity: 0, y: 100 });
+    gsap.set('.section-title', { opacity: 0, y: -50 });
+    gsap.set('.section-subtitle', { opacity: 0, y: 30 });
+
+    // Timeline para la animación del header
+    const headerTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.section-header',
+        start: 'top 80%',
+        end: 'bottom 60%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+
+    headerTl
+      .to('.section-title', {
+        duration: 1.2,
+        opacity: 1,
+        y: 0,
+        ease: 'power3.out'
+      })
+      .to('.section-subtitle', {
+        duration: 1,
+        opacity: 1,
+        y: 0,
+        ease: 'power3.out'
+      }, '-=0.8');
+
+    // Animación escalonada para las tarjetas de proyectos
+    gsap.to('.project-card', {
       duration: 1.2,
       opacity: 1,
       y: 0,
-      ease: 'power3.out'
-    })
-    .to('.section-subtitle', {
-      duration: 1,
-      opacity: 1,
-      y: 0,
-      ease: 'power3.out'
-    }, '-=0.8');
-
-  // Animación escalonada para las tarjetas de proyectos
-  gsap.to('.project-card', {
-    duration: 1.2,
-    opacity: 1,
-    y: 0,
-    stagger: {
-      amount: 1.5,
-      from: 'start'
-    },
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: '.projects-grid',
-      start: 'top 95%', // antes era 85%
-      end: 'bottom 10%', // antes era 20%
-      toggleActions: 'play none none reverse'
-    }
-  });
-
-  // Animaciones hover personalizadas con GSAP
-  document.querySelectorAll('.project-card').forEach((card, index) => {
-    const image = card.querySelector('img');
-    const overlay = card.querySelector('.image-overlay');
-    const buttons = card.querySelectorAll('.overlay-buttons a');
-    const title = card.querySelector('.project-title');
-    const techTags = card.querySelectorAll('.tech-tag');
-
-    let hoverTl = gsap.timeline({ paused: true });
-
-    // Timeline de hover
-    hoverTl
-      .to(card, {
-        duration: 0.4,
-        y: -10,
-        scale: 1.02,
-        boxShadow: '0 25px 50px rgba(139, 92, 246, 0.3)',
-        ease: 'power2.out'
-      })
-      .to(overlay, {
-        duration: 0.3,
-        opacity: 1,
-        ease: 'power2.inOut'
-      }, '-=0.2')
-      .from(buttons, {
-        duration: 0.5,
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        ease: 'back.out(1.7)'
-      }, '-=0.1');
-
-    // Eventos de mouse
-    card.addEventListener('mouseenter', () => {
-      hoverTl.play();
-      gsap.to(techTags, {
-        duration: 0.3,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        borderColor: 'rgba(255, 255, 255, 0.3)',
-        stagger: 0.05,
-        ease: 'power2.out'
-      });
+      stagger: {
+        amount: 1.5,
+        from: 'start'
+      },
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.projects-grid',
+        start: 'top 95%',
+        end: 'bottom 10%',
+        toggleActions: 'play none none reverse'
+      }
     });
 
-    card.addEventListener('mouseleave', () => {
-      hoverTl.reverse();
-      gsap.to(techTags, {
-        duration: 0.3,
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-        stagger: 0.05,
-        ease: 'power2.out'
-      });
-    });
+    // Animaciones hover personalizadas con GSAP
+    document.querySelectorAll('.project-card').forEach((card, index) => {
+      const image = card.querySelector('img');
+      const overlay = card.querySelector('.image-overlay');
+      const buttons = card.querySelectorAll('.overlay-buttons a');
+      const title = card.querySelector('.project-title');
+      const techTags = card.querySelectorAll('.tech-tag');
 
-    // Animación de clic para los botones
-    buttons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        gsap.to(button, {
-          duration: 0.1,
-          scale: 0.95,
-          yoyo: true,
-          repeat: 1,
+      let hoverTl = gsap.timeline({ paused: true });
+
+      // Timeline de hover
+      hoverTl
+        .to(card, {
+          duration: 0.4,
+          y: -10,
+          scale: 1.02,
+          boxShadow: '0 25px 50px rgba(139, 92, 246, 0.3)',
+          ease: 'power2.out'
+        })
+        .to(overlay, {
+          duration: 0.3,
+          opacity: 1,
           ease: 'power2.inOut'
+        }, '-=0.2')
+        .from(buttons, {
+          duration: 0.5,
+          y: 30,
+          opacity: 0,
+          stagger: 0.1,
+          ease: 'back.out(1.7)'
+        }, '-=0.1');
+
+      // Eventos de mouse
+      card.addEventListener('mouseenter', () => {
+        hoverTl.play();
+        gsap.to(techTags, {
+          duration: 0.3,
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          borderColor: 'rgba(255, 255, 255, 0.3)',
+          stagger: 0.05,
+          ease: 'power2.out'
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        hoverTl.reverse();
+        gsap.to(techTags, {
+          duration: 0.3,
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          borderColor: 'rgba(255, 255, 255, 0.1)',
+          stagger: 0.05,
+          ease: 'power2.out'
+        });
+      });
+
+      // Animación de clic para los botones
+      buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          gsap.to(button, {
+            duration: 0.1,
+            scale: 0.95,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power2.inOut'
+          });
         });
       });
     });
-  });
 
-  // Animación de paralaje suave para el fondo
-  gsap.to('.projects-section', {
-    backgroundPosition: '50% 100%',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.projects-section',
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: 1
-    }
-  });
+    // Animación de paralaje suave para el fondo
+    gsap.to('.projects-section', {
+      backgroundPosition: '50% 100%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.projects-section',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
 
-  // Animación adicional para los badges de categoría
-  gsap.from('.category-badge', {
-    duration: 0.8,
-    scale: 0,
-    rotation: 180,
-    stagger: 0.1,
-    ease: 'back.out(1.7)',
-    scrollTrigger: {
-      trigger: '.projects-grid',
-      start: 'top 80%'
-    }
-  });
+    // Animación adicional para los badges de categoría
+    gsap.from('.category-badge', {
+      duration: 0.8,
+      scale: 0,
+      rotation: 180,
+      stagger: 0.1,
+      ease: 'back.out(1.7)',
+      scrollTrigger: {
+        trigger: '.projects-grid',
+        start: 'top 80%'
+      }
+    });
 
-  // Efecto de respiración sutil para las tarjetas
-  gsap.to('.project-card', {
-    duration: 4,
-    rotationY: 2,
-    rotationX: 1,
-    yoyo: true,
-    repeat: -1,
-    ease: 'sine.inOut',
-    stagger: {
-      amount: 2,
-      from: 'random'
-    }
+    // Efecto de respiración sutil para las tarjetas
+    gsap.to('.project-card', {
+      duration: 4,
+      rotationY: 2,
+      rotationX: 1,
+      yoyo: true,
+      repeat: -1,
+      ease: 'sine.inOut',
+      stagger: {
+        amount: 2,
+        from: 'random'
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh();
+    });
+    ScrollTrigger.refresh();
   });
 </script>
+
+<style>
+
+  @media (max-width: 768px) {
+    .project-card {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>

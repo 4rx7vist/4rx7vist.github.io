@@ -46,7 +46,6 @@
   // Registrar el plugin ScrollTrigger
   gsap.registerPlugin(ScrollTrigger);
 
-  console.log("GSAP loaded:", gsap.version);
 
   // Función para convertir texto en spans individuales y aplicar efecto hover
   function wrapLetters(elementId) {
@@ -163,19 +162,6 @@
       },
     });
 
-    // Opcional: Añadir animación para el nuevo texto "DEVELOPER"
-    gsap.to("#dev-text", {
-      y: separation / 2,
-      duration: 1,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "section",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        pin: false,
-      },
-    });
   }
 
   // Ejecutar animaciones al cargar
@@ -188,7 +174,7 @@
     resizeTimeout = setTimeout(() => {
       // Limpiar animaciones anteriores
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      gsap.set("#titulo, #back-text, #end-text, #dev-text", {
+      gsap.set("#titulo, #back-text, #end-text", {
         clearProps: "all",
       });
 

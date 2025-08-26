@@ -18,7 +18,9 @@
     </div>
 
     <!-- Contact Form -->
-    <div class="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 md:p-12">
+    <div
+      class="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 md:p-12"
+    >
       <form id="contact-form" class="space-y-8">
         <!-- Name Field -->
         <div class="group">
@@ -88,8 +90,7 @@
               rows="4"
               required
               class="peer w-full bg-transparent border-b-2 border-gray-600 focus:border-green-400 py-3 px-0 text-white placeholder-transparent outline-none resize-none transition-all duration-300"
-              placeholder="Tell me about your project..."
-            ></textarea>
+              placeholder="Tell me about your project..."></textarea>
             <label
               for="message"
               class="absolute left-0 -top-6 text-gray-400 text-sm transition-all duration-300 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-6 peer-focus:text-sm peer-focus:text-green-400"
@@ -107,7 +108,10 @@
             class="group w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-black font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg relative overflow-hidden"
           >
             <span id="btn-text" class="relative z-10">Send Message</span>
-            <div class="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+            <div
+              class="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"
+            >
+            </div>
           </button>
         </div>
       </form>
@@ -126,24 +130,34 @@
           href="mailto:alexis95@hotmail.com"
           class="group flex items-center space-x-3 text-gray-400 hover:text-green-400 transition-colors duration-300"
         >
-          <div class="p-3 bg-gray-800 rounded-full group-hover:bg-green-400/20 transition-colors duration-300">
+          <div
+            class="p-3 bg-gray-800 rounded-full group-hover:bg-green-400/20 transition-colors duration-300"
+          >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+              <path
+                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+              ></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+              ></path>
             </svg>
           </div>
           <span>Email</span>
         </a>
-        
+
         <a
           href="https://linkedin.com/in/alexis-sotomayor"
           target="_blank"
           rel="noopener noreferrer"
           class="group flex items-center space-x-3 text-gray-400 hover:text-blue-400 transition-colors duration-300"
         >
-          <div class="p-3 bg-gray-800 rounded-full group-hover:bg-blue-400/20 transition-colors duration-300">
+          <div
+            class="p-3 bg-gray-800 rounded-full group-hover:bg-blue-400/20 transition-colors duration-300"
+          >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd"></path>
+              <path
+                fill-rule="evenodd"
+                d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                clip-rule="evenodd"></path>
             </svg>
           </div>
           <span>LinkedIn</span>
@@ -154,279 +168,317 @@
 </section>
 
 <script>
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger);
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Timeline para la animación de entrada del formulario
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: "#contact",
-      start: "top 85%",
-      end: "top 20%",
-      toggleActions: "play none none reverse",
-      once: false
-    }
-  });
-
-  // Animar el header primero
-  tl.fromTo("#contact .text-center", {
-    opacity: 0,
-    y: 60,
-    scale: 0.9
-  }, {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    duration: 0.8,
-    ease: "power2.out"
-  })
-
-  // Luego animar el formulario
-  .fromTo("#contact .bg-gray-900\\/50", {
-    opacity: 0,
-    y: 80,
-    scale: 0.95,
-    rotateX: 10
-  }, {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotateX: 0,
-    duration: 1,
-    ease: "power2.out"
-  }, "-=0.4") // Empezar 0.4s antes de que termine la anterior
-
-  // Animar los campos del formulario uno por uno
-  .fromTo("#contact .group", {
-    opacity: 0,
-    x: -30,
-    y: 20
-  }, {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    duration: 0.6,
-    stagger: 0.15,
-    ease: "power2.out"
-  }, "-=0.6")
-
-  // Animar el botón
-  .fromTo("#submit-btn", {
-    opacity: 0,
-    y: 30,
-    scale: 0.9
-  }, {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    duration: 0.5,
-    ease: "back.out(1.7)"
-  }, "-=0.3")
-
-  // Finalmente animar las opciones de contacto rápido
-  .fromTo("#contact .mt-12", {
-    opacity: 0,
-    y: 40
-  }, {
-    opacity: 1,
-    y: 0,
-    duration: 0.6,
-    ease: "power2.out"
-  }, "-=0.2");
-
-  // Animación adicional para cuando el formulario esté en viewport
-  gsap.fromTo("#contact", {
-    backgroundColor: "rgba(0, 0, 0, 0.8)"
-  }, {
-    backgroundColor: "rgba(0, 0, 0, 1)",
-    duration: 1,
-    scrollTrigger: {
-      trigger: "#contact",
-      start: "top 80%",
-      end: "center center",
-      scrub: 1
-    }
-  });
-
-  // Form submission
-  const form = document.getElementById('contact-form');
-  const submitBtn = document.getElementById('submit-btn');
-  const btnText = document.getElementById('btn-text');
-  const formStatus = document.getElementById('form-status');
-  const statusContent = document.getElementById('status-content');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // Get form data
-    const formData = new FormData(form);
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      subject: formData.get('subject') || 'Contact Form',
-      message: formData.get('message')
-    };
-
-    // Show loading state with animation
-    submitBtn.disabled = true;
-    gsap.to(btnText, {
-      scale: 0.9,
-      duration: 0.2,
-      onComplete: () => {
-        btnText.textContent = 'Sending...';
-        gsap.to(btnText, {
-          scale: 1,
-          duration: 0.2
-        });
-      }
+  document.addEventListener("DOMContentLoaded", () => {
+    // Timeline para la animación de entrada del formulario
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#contact",
+        start: "top 95%", // antes 85%
+        end: "top 10%", // antes 20%
+        toggleActions: "play none none reverse",
+        once: false,
+      },
     });
-    
-    // Simulate API call (replace with real endpoint)
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate delay
-      
-      // Success animation
-      gsap.to(submitBtn, {
-        scale: 0.95,
-        duration: 0.1,
-        yoyo: true,
-        repeat: 1,
-        ease: "power2.inOut"
-      });
 
-      showStatus('Message sent successfully! I\'ll get back to you soon. ✅', 'success');
-      
-      // Reset form with animation
-      gsap.to(form.querySelectorAll('input, textarea'), {
-        scale: 0.98,
-        duration: 0.2,
-        yoyo: true,
-        repeat: 1,
-        onComplete: () => {
-          form.reset();
-        }
-      });
-      
-      // Reset button after delay
-      setTimeout(() => {
-        gsap.to(btnText, {
+    // Animar el header primero
+    tl.fromTo(
+      "#contact .text-center",
+      {
+        opacity: 0,
+        y: 60,
+        scale: 0.9,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out",
+      }
+    )
+
+      // Luego animar el formulario
+      .fromTo(
+        "#contact .bg-gray-900\\/50",
+        {
+          opacity: 0,
+          y: 80,
+          scale: 0.95,
+          rotateX: 10,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotateX: 0,
+          duration: 1,
+          ease: "power2.out",
+        },
+        "-=0.4"
+      ) // Empezar 0.4s antes de que termine la anterior
+
+      // Animar los campos del formulario uno por uno
+      .fromTo(
+        "#contact .group",
+        {
+          opacity: 0,
+          x: -30,
+          y: 20,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "power2.out",
+        },
+        "-=0.6"
+      )
+
+      // Animar el botón
+      .fromTo(
+        "#submit-btn",
+        {
+          opacity: 0,
+          y: 30,
           scale: 0.9,
-          duration: 0.2,
-          onComplete: () => {
-            btnText.textContent = 'Send Message';
-            submitBtn.disabled = false;
-            gsap.to(btnText, {
-              scale: 1,
-              duration: 0.2
-            });
-          }
-        });
-      }, 2000);
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        },
+        "-=0.3"
+      )
 
-      // Here you would send the actual email
-      console.log('Form data:', data);
-      
-    } catch (error) {
-      showStatus('Failed to send message. Please try again. ❌', 'error');
+      // Finalmente animar las opciones de contacto rápido
+      .fromTo(
+        "#contact .mt-12",
+        {
+          opacity: 0,
+          y: 40,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.2"
+      );
+
+    // Animación adicional para cuando el formulario esté en viewport
+    gsap.fromTo(
+      "#contact",
+      {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+      },
+      {
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        duration: 1,
+        scrollTrigger: {
+          trigger: "#contact",
+          start: "top 80%",
+          end: "center center",
+          scrub: 1,
+        },
+      }
+    );
+
+    // Form submission
+    const form = document.getElementById("contact-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const btnText = document.getElementById("btn-text");
+    const formStatus = document.getElementById("form-status");
+    const statusContent = document.getElementById("status-content");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        subject: formData.get("subject") || "Contact Form",
+        message: formData.get("message"),
+      };
+
+      // Show loading state with animation
+      submitBtn.disabled = true;
       gsap.to(btnText, {
         scale: 0.9,
         duration: 0.2,
         onComplete: () => {
-          btnText.textContent = 'Send Message';
-          submitBtn.disabled = false;
+          btnText.textContent = "Sending...";
           gsap.to(btnText, {
             scale: 1,
-            duration: 0.2
+            duration: 0.2,
           });
-        }
+        },
       });
+
+      // Simulate API call (replace with real endpoint)
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate delay
+
+        // Success animation
+        gsap.to(submitBtn, {
+          scale: 0.95,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1,
+          ease: "power2.inOut",
+        });
+
+        showStatus(
+          "Message sent successfully! I'll get back to you soon. ✅",
+          "success"
+        );
+
+        // Reset form with animation
+        gsap.to(form.querySelectorAll("input, textarea"), {
+          scale: 0.98,
+          duration: 0.2,
+          yoyo: true,
+          repeat: 1,
+          onComplete: () => {
+            form.reset();
+          },
+        });
+
+        // Reset button after delay
+        setTimeout(() => {
+          gsap.to(btnText, {
+            scale: 0.9,
+            duration: 0.2,
+            onComplete: () => {
+              btnText.textContent = "Send Message";
+              submitBtn.disabled = false;
+              gsap.to(btnText, {
+                scale: 1,
+                duration: 0.2,
+              });
+            },
+          });
+        }, 2000);
+
+        // Here you would send the actual email
+      } catch (error) {
+        showStatus("Failed to send message. Please try again. ❌", "error");
+        gsap.to(btnText, {
+          scale: 0.9,
+          duration: 0.2,
+          onComplete: () => {
+            btnText.textContent = "Send Message";
+            submitBtn.disabled = false;
+            gsap.to(btnText, {
+              scale: 1,
+              duration: 0.2,
+            });
+          },
+        });
+      }
+    });
+
+    function showStatus(message, type) {
+      statusContent.textContent = message;
+      statusContent.className = `text-sm ${type === "success" ? "text-green-400" : "text-red-400"}`;
+
+      formStatus.classList.remove("hidden");
+
+      gsap.fromTo(
+        formStatus,
+        {
+          opacity: 0,
+          y: 20,
+          scale: 0.9,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+        }
+      );
+
+      // Hide after 5 seconds
+      setTimeout(() => {
+        gsap.to(formStatus, {
+          opacity: 0,
+          y: -20,
+          scale: 0.9,
+          duration: 0.3,
+          onComplete: () => {
+            formStatus.classList.add("hidden");
+          },
+        });
+      }, 5000);
     }
-  });
 
-  function showStatus(message, type) {
-    statusContent.textContent = message;
-    statusContent.className = `text-sm ${type === 'success' ? 'text-green-400' : 'text-red-400'}`;
-    
-    formStatus.classList.remove('hidden');
-    
-    gsap.fromTo(formStatus, {
-      opacity: 0,
-      y: 20,
-      scale: 0.9
-    }, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.4,
-      ease: "back.out(1.7)"
-    });
+    // Enhanced input focus animations
+    const inputs = document.querySelectorAll("input, textarea");
+    inputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        gsap.to(input, {
+          scale: 1.02,
+          duration: 0.3,
+          ease: "power2.out",
+        });
 
-    // Hide after 5 seconds
-    setTimeout(() => {
-      gsap.to(formStatus, {
-        opacity: 0,
-        y: -20,
-        scale: 0.9,
-        duration: 0.3,
-        onComplete: () => {
-          formStatus.classList.add('hidden');
-        }
+        // Animar el borde con un efecto de pulso
+        gsap.to(input, {
+          boxShadow: "0 0 0 2px rgba(16, 185, 129, 0.2)",
+          duration: 0.3,
+        });
       });
-    }, 5000);
-  }
 
-  // Enhanced input focus animations
-  const inputs = document.querySelectorAll('input, textarea');
-  inputs.forEach(input => {
-    input.addEventListener('focus', () => {
-      gsap.to(input, {
-        scale: 1.02,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-      
-      // Animar el borde con un efecto de pulso
-      gsap.to(input, {
-        boxShadow: "0 0 0 2px rgba(16, 185, 129, 0.2)",
-        duration: 0.3
+      input.addEventListener("blur", () => {
+        gsap.to(input, {
+          scale: 1,
+          boxShadow: "0 0 0 0px rgba(16, 185, 129, 0)",
+          duration: 0.3,
+          ease: "power2.out",
+        });
       });
     });
 
-    input.addEventListener('blur', () => {
-      gsap.to(input, {
-        scale: 1,
-        boxShadow: "0 0 0 0px rgba(16, 185, 129, 0)",
-        duration: 0.3,
-        ease: "power2.out"
+    // Hover effect para las opciones de contacto rápido
+    const contactLinks = document.querySelectorAll("#contact a");
+    contactLinks.forEach((link) => {
+      link.addEventListener("mouseenter", () => {
+        gsap.to(link, {
+          scale: 1.05,
+          y: -2,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+
+      link.addEventListener("mouseleave", () => {
+        gsap.to(link, {
+          scale: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        });
       });
     });
   });
 
-  // Hover effect para las opciones de contacto rápido
-  const contactLinks = document.querySelectorAll('#contact a');
-  contactLinks.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      gsap.to(link, {
-        scale: 1.05,
-        y: -2,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    });
-
-    link.addEventListener('mouseleave', () => {
-      gsap.to(link, {
-        scale: 1,
-        y: 0,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    });
+  window.addEventListener("resize", () => {
+    ScrollTrigger.refresh();
   });
-});
+  ScrollTrigger.refresh();
 </script>
 
 <style>
@@ -437,8 +489,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Gradient border animation */
   @keyframes gradient-border {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    #contact .text-center {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    #contact .bg-gray-900\/50 {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    #contact .group {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    #submit-btn {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    #contact .mt-12 {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    #contact {
+      background-color: rgba(0, 0, 0, 1) !important;
+    }
   }
 </style>

@@ -57,8 +57,6 @@
     
     // Verificar que el elemento existe
     if (!textElement) {
-      console.error("Elemento #pseudo .text-content no encontrado");
-      
       // Si no existe, reintentamos después
       setTimeout(runAnimation, 500);
       return;
@@ -79,31 +77,28 @@
       text: text,
       duration: text.length * 0.15,
       ease: "none",
-      onStart: () => console.log("Comenzando a escribir"),
-      onComplete: () => console.log("Escritura completa")
+      onStart: () => {},
+      onComplete: () => {}
     })
     .to({}, { duration: 1 }) // Pausa
     .to(textElement, {
       text: "",
       duration: text.length * 0.08,
       ease: "none",
-      onStart: () => console.log("Comenzando a borrar"),
-      onComplete: () => console.log("Borrado completo")
+      onStart: () => {},
+      onComplete: () => {}
     })
     .to({}, { duration: 0.5 }); // Pausa
     
-    console.log("Animación configurada");
   }
   
   // Ejecutar cuando el DOM esté listo
   document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM cargado, iniciando animación");
     runAnimation();
   });
   
   // Si el documento ya está cargado, ejecutar inmediatamente
   if (document.readyState === "complete" || document.readyState === "interactive") {
-    console.log("DOM ya cargado, iniciando animación inmediatamente");
     setTimeout(runAnimation, 100);
   }
 </script>
