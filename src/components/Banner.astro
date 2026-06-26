@@ -14,28 +14,47 @@
         id="back-text"
         class="text-gray-600 font-black text-[4.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] xl:text-[15rem] leading-none opacity-20 sm:opacity-30 -translate-x-4 sm:-translate-x-8 md:-translate-x-12 pointer-events-auto"
       >
-        BACK
+        PORT
       </div>
       <div
         id="end-text"
         class="text-gray-600 font-black text-[4.5rem] sm:text-[6rem] md:text-[9rem] lg:text-[12rem] xl:text-[15rem] leading-none opacity-20 sm:opacity-30 translate-x-4 sm:translate-x-8 md:translate-x-12 pointer-events-auto"
       >
-        END
+        VAULT
       </div>
     </div>
   </div>
 
   <!-- Contenido principal -->
-  <div class="relative z-10 text-center max-w-4xl mx-auto">
+  <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
     <h1
       id="titulo"
-      class="text-white text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-4"
+      class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 leading-tight tracking-tight"
     >
-      I'm Alexis Sotomayor
+      We Build Software That Scales
     </h1>
-    <p class="text-gray-300 text-base sm:text-lg md:text-xl mb-2">
-      Full Stack Developer | AI Enthusiast
+    <p 
+      id="subtitulo"
+      class="text-gray-300 text-base sm:text-lg md:text-xl lg:text-2xl mb-8 max-w-2xl mx-auto font-light leading-relaxed"
+    >
+      Custom software engineering, payment gateways, and automated workflows designed to drive business growth.
     </p>
+    
+    <!-- Botones CTA -->
+    <div id="cta-buttons" class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+      <a
+        href="#projects"
+        class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105 active:scale-95 transition-all duration-300 text-center"
+      >
+        Explore Solutions
+      </a>
+      <a
+        href="#contact"
+        class="w-full sm:w-auto bg-transparent border-2 border-white/20 hover:border-white/50 text-white font-bold py-4 px-8 rounded-2xl hover:bg-white/5 hover:scale-105 active:scale-95 transition-all duration-300 text-center"
+      >
+        Build Your Solution
+      </a>
+    </div>
   </div>
 </section>
 
@@ -122,18 +141,39 @@
     wrapLetters("end-text");
     wrapLetters("dev-text");
 
-    // Animación inicial del título
+    // Animación inicial del título, subtítulo y botones CTA
     let tl = gsap.timeline();
 
     tl.set("#titulo", {
       autoAlpha: 0,
       x: -offset,
-    }).to("#titulo", {
+    })
+    .set("#subtitulo", {
+      autoAlpha: 0,
+      y: 30,
+    })
+    .set("#cta-buttons", {
+      autoAlpha: 0,
+      y: 30,
+    })
+    .to("#titulo", {
       duration: 1.2,
       autoAlpha: 1,
       x: 0,
-      ease: "power2.out",
-    });
+      ease: "power3.out",
+    })
+    .to("#subtitulo", {
+      duration: 1.0,
+      autoAlpha: 1,
+      y: 0,
+      ease: "power3.out",
+    }, "-=0.6")
+    .to("#cta-buttons", {
+      duration: 1.0,
+      autoAlpha: 1,
+      y: 0,
+      ease: "back.out(1.7)",
+    }, "-=0.6");
 
     // Animación de separación del texto de fondo al hacer scroll
     gsap.to("#back-text", {
@@ -174,7 +214,7 @@
     resizeTimeout = setTimeout(() => {
       // Limpiar animaciones anteriores
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      gsap.set("#titulo, #back-text, #end-text", {
+      gsap.set("#titulo, #subtitulo, #cta-buttons, #back-text, #end-text", {
         clearProps: "all",
       });
 
