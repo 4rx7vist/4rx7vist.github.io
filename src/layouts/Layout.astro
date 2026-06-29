@@ -1,6 +1,7 @@
 ---
 import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
+// cache bust: 1
 ---
 
 <!doctype html>
@@ -11,30 +12,212 @@ import Navbar from "../components/Navbar.astro";
     <link rel="icon" type="image/png" href="/portfolio_logo.png" />
     <meta name="generator" content={Astro.generator} />
     <title>Port Vault Studio | High-Impact Tech Solutions</title>
+    <!-- Premium Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- Custom Cursor elements -->
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
+
     <Navbar />
     <slot />
     <Footer />
+
+    <script>
+      import { gsap } from "gsap";
+      import Lenis from "lenis";
+
+      // 1. Initialize Lenis Smooth Scroll
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false,
+      });
+
+      // Hook Lenis into GSAP ScrollTrigger
+      lenis.on('scroll', () => {
+        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+          ScrollTrigger.update();
+        });
+      });
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      gsap.ticker.lagSmoothing(0);
+
+      // Make lenis globally available if needed
+      window.lenis = lenis;
+
+      // 2. Custom Cursor Follower (only for hoverable devices)
+      const cursorDot = document.getElementById('cursor-dot');
+
+      if (cursorDot && window.matchMedia('(hover: hover)').matches) {
+        gsap.set(cursorDot, { xPercent: -50, yPercent: -50, opacity: 1 });
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          
+          gsap.to(cursorDot, {
+            x: mouseX,
+            y: mouseY,
+            duration: 0.05,
+          });
+        });
+
+        // Setup Cursor Hovers
+        const setupCursorHover = () => {
+          const hoverElements = document.querySelectorAll(
+            'a, button, [role="button"], input, textarea, .project-card, .skill-card, .achievement-row'
+          );
+
+          hoverElements.forEach((el) => {
+            // Avoid duplicate listeners
+            if (el.getAttribute('data-cursor-hovered') === 'true') return;
+            el.setAttribute('data-cursor-hovered', 'true');
+
+            el.addEventListener('mouseenter', () => {
+              gsap.to(cursorDot, {
+                scale: 1.5,
+                backgroundColor: '#c084fc', // lighter purple on hover
+                duration: 0.2,
+              });
+            });
+
+            el.addEventListener('mouseleave', () => {
+              gsap.to(cursorDot, {
+                scale: 1,
+                backgroundColor: '#a855f7',
+                duration: 0.2,
+                clearProps: 'scale,backgroundColor',
+              });
+            });
+          });
+        };
+
+        setupCursorHover();
+
+        // Observe document changes to apply to new nodes
+        const observer = new MutationObserver(setupCursorHover);
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+
+      // 3. Magnetic Interaction (targets elements with 'magnetic-target')
+      const setupMagneticElements = () => {
+        const magneticElements = document.querySelectorAll('.magnetic-target');
+        
+        magneticElements.forEach((el) => {
+          if (el.getAttribute('data-magnetic-setup') === 'true') return;
+          el.setAttribute('data-magnetic-setup', 'true');
+
+          el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            gsap.to(el, {
+              x: x * 0.4,
+              y: y * 0.4,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+          });
+
+          el.addEventListener('mouseleave', () => {
+            gsap.to(el, {
+              x: 0,
+              y: 0,
+              duration: 0.6,
+              ease: 'elastic.out(1, 0.3)',
+            });
+          });
+        });
+      };
+
+      setupMagneticElements();
+      const observerMag = new MutationObserver(setupMagneticElements);
+      observerMag.observe(document.body, { childList: true, subtree: true });
+    </script>
   </body>
 </html>
 
 <style is:global>
   @import "tailwindcss";
-  html,
-  body {
-    background: #262626;
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
+
+  /* Language Toggle Logic */
+  html[lang="en"] .lang-es-text { display: none !important; }
+  html[lang="es"] .lang-en-text { display: none !important; }
+
+  /* Premium Google Font Integration */
+  :root {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
     overflow-x: hidden;
     overflow-y: auto;
-    overscroll-behavior: none;
+    background: #08080a;
+    color: white;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #08080a;
+    color: white;
     margin: 0;
     width: 100%;
     min-height: 100vh;
-    box-sizing: border-box;
+    overflow-x: hidden;
+    /* Custom cursor overrides default pointer on hoverable devices */
+    cursor: default;
+  }
+
+  @media (hover: hover) {
+    a, button, [role="button"], input, textarea, .project-card, .skill-card, .achievement-row {
+      cursor: none !important;
+    }
+  }
+
+  /* Custom Cursor Styles */
+  .custom-cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #a855f7; /* Purple accent */
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  /* Hide custom cursor on touch/mobile devices */
+  @media (hover: none) {
+    .custom-cursor-dot {
+      display: none !important;
+    }
+    body {
+      cursor: auto !important;
+    }
   }
 
   .terminal,
@@ -43,10 +226,26 @@ import Navbar from "../components/Navbar.astro";
     height: auto !important;
   }
 
-  /* It should prevent common containers from creating unexpected scroll */
   main,
   section,
   .container {
     overflow: visible;
   }
+
+  /* Custom Scrollbar for Lenis */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #08080a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 4px;
+    border: 2px solid #08080a;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46;
+  }
 </style>
+

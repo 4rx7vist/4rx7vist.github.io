@@ -1,50 +1,59 @@
 ---
 const skills = [
   { key: "Nextjs", name: "Nextjs", icon: "icons/next.svg" },
-  { key: "react", name: "reactjs", icon: "icons/react.svg" },
-  { key: "TypeScript", name: "typescript", icon: "icons/typescript.svg" },
-  { key: "node", name: "nodejs", icon: "icons/nodeJS.svg" },
+  { key: "react", name: "React", icon: "icons/react.svg" },
+  { key: "TypeScript", name: "TypeScript", icon: "icons/typescript.svg" },
+  { key: "node", name: "NodeJS", icon: "icons/nodeJS.svg" },
   { key: "Java", name: "Java", icon: "icons/java.svg" },
-  { key: "python", name: "python", icon: "icons/python.svg" },
+  { key: "python", name: "Python", icon: "icons/python.svg" },
   { key: "PostgreSQL", name: "PostgreSQL", icon: "icons/postgresSQL.svg" },
   { key: "SQL-server", name: "SQL Server", icon: "icons/SQL-server.svg" },
-  { key: "docker", name: "docker", icon: "icons/docker.svg" },
-  { key: "git", name: "git", icon: "icons/git.svg" },
-  { key: "linux", name: "linux", icon: "icons/linux.svg" },
-  { key: "bash", name: "bash", icon: "icons/bash.svg" },
+  { key: "docker", name: "Docker", icon: "icons/docker.svg" },
+  { key: "git", name: "Git", icon: "icons/git.svg" },
+  { key: "linux", name: "Linux", icon: "icons/linux.svg" },
+  { key: "bash", name: "Bash", icon: "icons/bash.svg" },
 ];
 ---
 
-<section id="skills" class="py-8 bg-black">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="mb-6 relative">
-      <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight mb-2">
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300">
-          Our Tech Stack
-        </span>
+<section id="skills" class="py-32 bg-[#08080a] relative overflow-hidden">
+  <!-- Decorative background light -->
+  <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-900/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
+    
+    <!-- Section Header -->
+    <div class="mb-16 text-left max-w-3xl">
+      <span class="text-xs font-bold tracking-[0.3em] text-purple-400 uppercase mb-3 block">
+        <span class="lang-en-text">Expertise</span>
+        <span class="lang-es-text">Especialidades</span>
+      </span>
+      <h2 class="text-white text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight mb-6">
+        <span class="lang-en-text">Our <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">tech stack</span>.</span>
+        <span class="lang-es-text">Nuestro <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">stack tecnológico</span>.</span>
       </h2>
-      <div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full opacity-80"></div>
-      <p class="text-gray-400 text-xs md:text-sm mt-2 mb-2 tracking-wide font-light">
-        The core technologies we leverage to design scalable, production-grade applications.
+      <p class="text-gray-400 text-lg font-light leading-relaxed">
+        <span class="lang-en-text">The core technologies we leverage to design scalable, production-grade applications.</span>
+        <span class="lang-es-text">Las tecnologías principales que usamos para diseñar aplicaciones escalables y listas para producción.</span>
       </p>
     </div>
 
-    <ul class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-6 place-items-center">
+    <!-- Skills Grid -->
+    <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 place-items-center">
       {
         skills.map((s) => (
           <li
-            class="skill-card group w-full max-w-[88px] flex flex-col items-center gap-2 select-none transition-transform duration-200 ease-out group-hover:-translate-y-1 group-hover:scale-105"
+            class="skill-card group w-full aspect-square flex flex-col items-center justify-center p-6 bg-[#0e0e12]/30 border border-white/5 rounded-3xl select-none transition-all duration-300 ease-out hover:border-purple-500/25 hover:shadow-2xl hover:shadow-purple-500/5"
             data-key={s.key}
             aria-label={s.name}
           >
-            <div class="icon-wrap w-20 h-20 rounded-full flex items-center justify-center bg-transparent transition-transform transform-gpu will-change-transform">
+            <div class="icon-wrap w-16 h-16 rounded-2xl flex items-center justify-center bg-white/5 transition-transform duration-300 group-hover:scale-110 group-hover:bg-white/10">
               <img
                 src={s.icon}
                 alt={s.name}
-                class="skill-icon w-10 h-10 filter grayscale opacity-60 transition-all duration-150 group-hover:grayscale-0 group-hover:opacity-100"
+                class="skill-icon w-10 h-10 filter grayscale opacity-50 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.4)]"
               />
             </div>
-            <span class="skill-name text-xs text-gray-400 tracking-wide transition-colors duration-150 group-hover:text-[#7fb0ff]">
+            <span class="skill-name mt-5 text-xs font-bold tracking-widest text-gray-400 uppercase transition-colors duration-300 group-hover:text-purple-300">
               {s.name}
             </span>
           </li>
@@ -54,7 +63,7 @@ const skills = [
   </div>
 </section>
 
-<script type="module">
+<script>
   import { gsap } from "gsap";
 
   if (typeof window !== "undefined") {
@@ -67,8 +76,8 @@ const skills = [
           const prev = floatTweens.get(card);
           try { prev.kill(); } catch (e) {}
         }
-        const dur = 3 + Math.random() * 3;
-        const y = 6 + Math.random() * 8;
+        const dur = 4 + Math.random() * 3;
+        const y = 5 + Math.random() * 5;
         const tween = gsap.to(card, {
           y: `+=${y}`,
           duration: dur,
@@ -81,31 +90,16 @@ const skills = [
         return tween;
       }
 
-      // Crear flotado inicial
-      cards.forEach((card, i) => createFloat(card, (i % 6) * 0.08));
+      // Create initial float
+      cards.forEach((card, i) => createFloat(card, (i % 6) * 0.1));
 
-      // Color elegido para texto al hover (coincide con el azul tenue del filtro)
-      const HOVER_COLOR = "#7FB0FF";
-      const BASE_COLOR = "#9CA3AF"; // tailwind gray-400
-
-      // Hover: solo visual (azul tenue) y tilt; no se declara como clickeable
+      // Pointer event tilts
       cards.forEach((card) => {
-        const icon = card.querySelector(".skill-icon");
-        const label = card.querySelector(".skill-name");
-
         const enter = () => {
           const t = floatTweens.get(card);
           if (t) t.pause();
 
-          gsap.to(card, { scale: 1.06, y: -8, duration: 0.18, ease: "power2.out" });
-          gsap.to(icon, {
-            filter: "grayscale(0%) sepia(0.25) saturate(2.4) hue-rotate(185deg) brightness(0.95)",
-            opacity: 1,
-            duration: 0.18,
-            ease: "power2.out",
-          });
-          // animar color del label para que coincida
-          if (label) gsap.to(label, { color: HOVER_COLOR, duration: 0.18, ease: "power2.out" });
+          gsap.to(card, { scale: 1.05, y: -5, duration: 0.25, ease: "power2.out" });
         };
 
         const leave = () => {
@@ -114,40 +108,26 @@ const skills = [
             rotateX: 0,
             rotateY: 0,
             y: 0,
-            duration: 0.35,
+            duration: 0.4,
             ease: "power3.out",
             onComplete: () => {
               createFloat(card);
             },
           });
-
-          gsap.to(icon, {
-            filter: "grayscale(100%)",
-            opacity: 0.6,
-            duration: 0.25,
-            ease: "power3.out",
-          });
-
-          if (label) gsap.to(label, { color: BASE_COLOR, duration: 0.25, ease: "power3.out" });
         };
 
         const move = (e) => {
           const rect = card.getBoundingClientRect();
           const px = (e.clientX - rect.left) / rect.width;
           const py = (e.clientY - rect.top) / rect.height;
-          const rotY = (px - 0.5) * 10;
-          const rotX = (0.5 - py) * 6;
-          gsap.to(card, { rotateY: rotY, rotateX: rotX, duration: 0.12, ease: "power1.out" });
+          const rotY = (px - 0.5) * 15;
+          const rotX = (0.5 - py) * 15;
+          gsap.to(card, { rotateY: rotY, rotateX: rotX, duration: 0.15, ease: "power1.out" });
         };
 
-        // Registrar pointer events + mouse como respaldo
         card.addEventListener("pointerenter", enter);
         card.addEventListener("pointerleave", leave);
         card.addEventListener("pointermove", move);
-
-        card.addEventListener("mouseenter", enter);
-        card.addEventListener("mouseleave", leave);
-        card.addEventListener("mousemove", move);
       });
     }
 
@@ -158,3 +138,4 @@ const skills = [
     }
   }
 </script>
+

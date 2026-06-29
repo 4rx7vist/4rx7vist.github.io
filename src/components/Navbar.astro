@@ -2,35 +2,69 @@
 
 ---
 
-<nav
-  class="bg-black text-white px-4 sm:px-6 py-4 flex justify-between items-center shadow-md"
+<header
+  id="main-header"
+  class="fixed top-0 left-0 w-full z-50 bg-[#08080a]/60 backdrop-blur-lg border-b border-white/5 transition-all duration-300 px-6 sm:px-12 py-5 flex justify-between items-center"
 >
-  <div class="text-lg sm:text-xl font-bold flex flex-col leading-tight">
-    <span class="text-xs sm:text-sm font-normal text-purple-400">Tech Solutions Studio</span>
-    <span class="text-sm sm:text-base">Port Vault</span>
-  </div>
+  <!-- Brand / Logo -->
+  <a href="#" class="logo-group flex flex-col leading-tight select-none magnetic-target">
+    <span class="text-[10px] font-bold tracking-[0.2em] text-purple-400 uppercase">Studio</span>
+    <span class="text-lg font-black tracking-tight text-white">PORT VAULT<span class="text-purple-500">.</span></span>
+  </a>
 
-  <div class="flex-1 flex justify-center">
+  <!-- Center Links (Cuberto-like navigation) -->
+  <nav class="hidden md:flex items-center gap-8">
+    <a href="#projects" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
+      <span class="lang-en-text">Projects</span>
+      <span class="lang-es-text">Proyectos</span>
+      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300"></span>
+    </a>
+    <a href="#skills" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
+      <span class="lang-en-text">Tech Stack</span>
+      <span class="lang-es-text">Tecnologías</span>
+      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300"></span>
+    </a>
+    <a href="#achievements" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
+      <span class="lang-en-text">Systems</span>
+      <span class="lang-es-text">Sistemas</span>
+      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300"></span>
+    </a>
+    
+    <!-- Typing brand animation embedded elegantly -->
     <span
       id="pseudo"
-      class="text-base sm:text-lg font-mono font-semibold tracking-widest select-none"
+      class="text-xs font-mono font-bold tracking-widest text-purple-300/80 bg-white/5 px-3 py-1.5 rounded-full select-none"
     >
       <span class="text-content"></span><span class="cursor">|</span>
     </span>
-  </div>
+  </nav>
 
-  <div class="flex items-center gap-3">
+  <!-- Right Call To Action & Lang Toggle -->
+  <div class="flex items-center gap-4 sm:gap-6">
+    <!-- Language Toggle -->
+    <button id="lang-toggle" class="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-gray-400 hover:text-white transition-colors duration-300" aria-label="Toggle Language">
+      <span class="lang-en text-white transition-colors duration-300">EN</span>
+      <span class="w-px h-3 bg-white/20"></span>
+      <span class="lang-es transition-colors duration-300">ES</span>
+    </button>
+
     <a
       href="#contact"
-      class="bg-black text-white px-4 py-2 rounded-md border border-transparent hover:bg-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
+      class="magnetic-target text-xs sm:text-sm font-bold tracking-wide uppercase border border-white/20 hover:border-white/80 bg-transparent text-white px-5 sm:px-7 py-3 rounded-full hover:bg-white hover:text-black transition-all duration-300 hover:scale-105"
       aria-label="Contact"
     >
-      Contact
+      <span class="lang-en-text">Let's Talk</span>
+      <span class="lang-es-text">Hablemos</span>
     </a>
   </div>
-</nav>
+</header>
 
 <style>
+  /* Navigation link hover animation */
+  .nav-link:hover .nav-link-line {
+    width: 100%;
+  }
+
   .cursor {
     animation: blink 0.7s step-end infinite;
   }
@@ -42,63 +76,137 @@
 </style>
 
 <script>
-  // Importar GSAP y TextPlugin
   import { gsap } from "gsap";
   import { TextPlugin } from "gsap/TextPlugin";
   
-  // Registrar el plugin
   gsap.registerPlugin(TextPlugin);
   
-  // Función que ejecuta la animación
-  function runAnimation() {
-
-    // Seleccionar el elemento
+  // 1. Text Typing Animation (GSAP)
+  function runTypingAnimation() {
     const textElement = document.querySelector("#pseudo .text-content");
-    
-    // Verificar que el elemento existe
     if (!textElement) {
-      // Si no existe, reintentamos después
-      setTimeout(runAnimation, 500);
+      setTimeout(runTypingAnimation, 200);
       return;
     }
     
-    
-    // Texto que queremos animar
     const text = "4rx7vist";
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
     
-    // Configurar la animación
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
-    
-    // Asegurarse de que empieza vacío
     gsap.set(textElement, { text: "" });
     
-    // Animación de escritura
     tl.to(textElement, {
       text: text,
       duration: text.length * 0.15,
       ease: "none",
-      onStart: () => {},
-      onComplete: () => {}
     })
-    .to({}, { duration: 1 }) // Pausa
+    .to({}, { duration: 1.5 })
     .to(textElement, {
       text: "",
       duration: text.length * 0.08,
       ease: "none",
-      onStart: () => {},
-      onComplete: () => {}
     })
-    .to({}, { duration: 0.5 }); // Pausa
+    .to({}, { duration: 0.5 });
+  }
+
+  // 2. Auto-Hide Navbar logic on Scroll
+  function setupNavbarScrollBehavior() {
+    const header = document.getElementById("main-header");
+    if (!header) return;
+
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener("scroll", () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 100) {
+        // Add shadow / background shift
+        header.classList.add("py-3", "bg-[#08080a]/90");
+        header.classList.remove("py-5");
+
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down - hide header
+          gsap.to(header, {
+            y: -100,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.out"
+          });
+        } else {
+          // Scrolling up - show header
+          gsap.to(header, {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            ease: "power2.out"
+          });
+        }
+      } else {
+        // At the top
+        header.classList.remove("py-3", "bg-[#08080a]/90");
+        header.classList.add("py-5");
+        gsap.to(header, {
+          y: 0,
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      }
+
+      lastScrollY = currentScrollY;
+    });
+  }
+  
+  // 3. Language Toggle Logic
+  function setupLanguageToggle() {
+    const langToggle = document.getElementById("lang-toggle");
+    const langEn = langToggle?.querySelector(".lang-en");
+    const langEs = langToggle?.querySelector(".lang-es");
     
+    if (langToggle && langEn && langEs) {
+      langToggle.addEventListener("click", () => {
+        const currentLang = document.documentElement.lang || "en";
+        const newLang = currentLang === "en" ? "es" : "en";
+        
+        document.documentElement.lang = newLang;
+        localStorage.setItem("preferred-lang", newLang);
+        
+        if (newLang === "es") {
+          langEn.classList.remove("text-white");
+          langEn.classList.add("text-gray-400");
+          langEs.classList.remove("text-gray-400");
+          langEs.classList.add("text-white");
+        } else {
+          langEs.classList.remove("text-white");
+          langEs.classList.add("text-gray-400");
+          langEn.classList.remove("text-gray-400");
+          langEn.classList.add("text-white");
+        }
+        
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
+      });
+
+      const savedLang = localStorage.getItem("preferred-lang");
+      if (savedLang === "es") {
+        document.documentElement.lang = "es";
+        langEn.classList.remove("text-white");
+        langEn.classList.add("text-gray-400");
+        langEs.classList.remove("text-gray-400");
+        langEs.classList.add("text-white");
+      }
+    }
   }
-  
-  // Ejecutar cuando el DOM esté listo
+
+  // Run on load
   document.addEventListener("DOMContentLoaded", () => {
-    runAnimation();
+    runTypingAnimation();
+    setupNavbarScrollBehavior();
+    setupLanguageToggle();
   });
-  
-  // Si el documento ya está cargado, ejecutar inmediatamente
+
   if (document.readyState === "complete" || document.readyState === "interactive") {
-    setTimeout(runAnimation, 100);
+    setTimeout(() => {
+      runTypingAnimation();
+      setupNavbarScrollBehavior();
+    }, 100);
   }
-</script>
+</script>
