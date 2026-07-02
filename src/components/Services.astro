@@ -1,0 +1,107 @@
+---
+// Services.astro
+const services = [
+  {
+    id: "custom-dev",
+    title_en: "Custom Software",
+    title_es: "Software a Medida",
+    desc_en: "End-to-end development of web and mobile applications tailored to your specific business logic and goals.",
+    desc_es: "Desarrollo integral de aplicaciones web y móviles adaptadas a la lógica y objetivos específicos de tu negocio.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" /></svg>`
+  },
+  {
+    id: "automation",
+    title_en: "Process Automation",
+    title_es: "Automatización",
+    desc_en: "Eliminate repetitive tasks and human error by connecting systems and automating complex daily workflows.",
+    desc_es: "Elimina tareas repetitivas y errores humanos conectando sistemas y automatizando flujos de trabajo complejos.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`
+  },
+  {
+    id: "cloud",
+    title_en: "Cloud Architecture",
+    title_es: "Arquitectura Cloud",
+    desc_en: "Design and deployment of scalable, high-availability server infrastructures that grow with your company.",
+    desc_es: "Diseño y despliegue de infraestructuras de servidores escalables y de alta disponibilidad que crecen con tu empresa.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" /></svg>`
+  },
+  {
+    id: "ai",
+    title_en: "AI Integrations",
+    title_es: "Integración de IA",
+    desc_en: "Implementation of intelligent agents and LLMs to provide advanced analytics, customer support, and insights.",
+    desc_es: "Implementación de agentes inteligentes y modelos de lenguaje para brindar análisis, soporte al cliente avanzado y métricas.",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.428-1.428L13.5 18.75l1.178-.394a2.25 2.25 0 001.428-1.428L16.5 15.75l.394 1.178a2.25 2.25 0 001.428 1.428l1.178.394-1.178.394a2.25 2.25 0 00-1.428 1.428z" /></svg>`
+  }
+];
+---
+
+<section id="services" class="bg-[#030712] py-24 relative overflow-hidden">
+  <!-- Subtle ambient glow -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
+    <div class="text-center mb-16">
+      <span class="text-xs font-bold tracking-[0.3em] text-blue-400 uppercase mb-3 block">
+        <span class="lang-en-text">Value Proposition</span>
+        <span class="lang-es-text">Propuesta de Valor</span>
+      </span>
+      <h2 class="text-white text-4xl sm:text-5xl font-black tracking-tight mb-4">
+        <span class="lang-en-text">What we <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">deliver</span>.</span>
+        <span class="lang-es-text">Lo que <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">aportamos</span>.</span>
+      </h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg font-light">
+        <span class="lang-en-text">We go beyond code. We provide strategic technical solutions that directly impact your bottom line and operational efficiency.</span>
+        <span class="lang-es-text">Vamos más allá del código. Proveemos soluciones técnicas estratégicas que impactan directamente en tu rentabilidad y eficiencia operativa.</span>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {services.map((service) => (
+        <div class="service-card group bg-[#0b1120]/60 border border-white/5 rounded-3xl p-8 hover:bg-[#0b1120] hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col items-start relative overflow-hidden">
+          
+          <!-- Hover light effect -->
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+          <!-- Icon -->
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-300 mb-6 group-hover:scale-110 group-hover:bg-blue-500/10 group-hover:border-blue-500/30 group-hover:text-cyan-300 transition-all duration-300">
+            <Fragment set:html={service.icon} />
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-xl font-bold text-white mb-3 tracking-tight group-hover:text-blue-300 transition-colors duration-300">
+            <span class="lang-en-text">{service.title_en}</span>
+            <span class="lang-es-text">{service.title_es}</span>
+          </h3>
+
+          <!-- Description -->
+          <p class="text-gray-400 text-sm leading-relaxed font-light">
+            <span class="lang-en-text">{service.desc_en}</span>
+            <span class="lang-es-text">{service.desc_es}</span>
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.from(".service-card", {
+      scrollTrigger: {
+        trigger: "#services",
+        start: "top 80%",
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power3.out"
+    });
+  });
+</script>

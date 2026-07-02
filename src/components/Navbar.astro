@@ -4,12 +4,12 @@
 
 <header
   id="main-header"
-  class="fixed top-0 left-0 w-full z-50 bg-[#08080a]/60 backdrop-blur-lg border-b border-white/5 transition-all duration-300 px-6 sm:px-12 py-5 flex justify-between items-center"
+  class="fixed top-0 left-0 w-full z-50 bg-[#030712]/60 backdrop-blur-lg border-b border-white/5 transition-all duration-300 px-6 sm:px-12 py-5 flex justify-between items-center"
 >
   <!-- Brand / Logo -->
   <a href="#" class="logo-group flex flex-col leading-tight select-none magnetic-target">
-    <span class="text-[10px] font-bold tracking-[0.2em] text-purple-400 uppercase">Studio</span>
-    <span class="text-lg font-black tracking-tight text-white">PORT VAULT<span class="text-purple-500">.</span></span>
+    <span class="text-[10px] font-bold tracking-[0.2em] text-blue-400 uppercase">Studio</span>
+    <span class="text-lg font-black tracking-tight text-white">PORT VAULT<span class="text-blue-500">.</span></span>
   </a>
 
   <!-- Center Links (Cuberto-like navigation) -->
@@ -17,23 +17,23 @@
     <a href="#projects" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
       <span class="lang-en-text">Projects</span>
       <span class="lang-es-text">Proyectos</span>
-      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300"></span>
+      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300"></span>
     </a>
     <a href="#skills" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
       <span class="lang-en-text">Tech Stack</span>
       <span class="lang-es-text">Tecnologías</span>
-      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300"></span>
+      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300"></span>
     </a>
     <a href="#achievements" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
       <span class="lang-en-text">Systems</span>
       <span class="lang-es-text">Sistemas</span>
-      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300"></span>
+      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300"></span>
     </a>
     
     <!-- Typing brand animation embedded elegantly -->
     <span
       id="pseudo"
-      class="text-xs font-mono font-bold tracking-widest text-purple-300/80 bg-white/5 px-3 py-1.5 rounded-full select-none"
+      class="text-xs font-mono font-bold tracking-widest text-blue-300/80 bg-white/5 px-3 py-1.5 rounded-full select-none"
     >
       <span class="text-content"></span><span class="cursor">|</span>
     </span>
@@ -120,7 +120,7 @@
 
       if (currentScrollY > 100) {
         // Add shadow / background shift
-        header.classList.add("py-3", "bg-[#08080a]/90");
+        header.classList.add("py-3", "bg-[#030712]/90");
         header.classList.remove("py-5");
 
         if (currentScrollY > lastScrollY) {
@@ -142,7 +142,7 @@
         }
       } else {
         // At the top
-        header.classList.remove("py-3", "bg-[#08080a]/90");
+        header.classList.remove("py-3", "bg-[#030712]/90");
         header.classList.add("py-5");
         gsap.to(header, {
           y: 0,
