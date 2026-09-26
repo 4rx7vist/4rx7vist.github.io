@@ -1,4 +1,5 @@
 ---
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section id="achievements" class="bg-[#030712] pt-32 pb-12 relative overflow-hidden">
@@ -121,7 +122,7 @@
   </div>
 </section>
 
-<script>
+<script define:vars={{ baseUrl }}>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   import * as THREE from "three";
@@ -246,9 +247,9 @@
 
     // ── Image slideshow variables ──
     const imageUrls = [
-      "/images/Agents.png",
-      "/images/CRM.png",
-      "/images/Integrations.png"
+      `${baseUrl}images/Agents.png`,
+      `${baseUrl}images/CRM.png`,
+      `${baseUrl}images/Integrations.png`
     ];
     const images: HTMLImageElement[] = [];
     let imagesLoaded = 0;
@@ -373,7 +374,7 @@
     laptopGroup.add(baseNode);
 
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load("/assets/macbook_pro_m5_max_16_inch_2026.glb", (gltf) => {
+    gltfLoader.load(`${baseUrl}assets/macbook_pro_m5_max_16_inch_2026.glb`, (gltf) => {
       const model = gltf.scene;
       model.scale.set(0.11, 0.11, 0.11);
       model.rotation.x = 0;

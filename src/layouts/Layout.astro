@@ -10,7 +10,7 @@ import Preloader from "../components/Preloader.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="/portfolio_logo.png" />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}portfolio_logo.png`} />
     <meta name="generator" content={Astro.generator} />
     <title>Port Vault Studio | High-Impact Tech Solutions</title>
     <!-- Premium Google Font -->
@@ -250,4 +250,3 @@ import Preloader from "../components/Preloader.astro";
     background: #3f3f46;
   }
 </style>
-

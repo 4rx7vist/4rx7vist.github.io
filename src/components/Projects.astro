@@ -1,5 +1,6 @@
 ---
 // Array de proyectos / soluciones
+const baseUrl = import.meta.env.BASE_URL;
 const projects = [
   {
     id: 1,
@@ -19,7 +20,7 @@ const projects = [
       "Sincronización automatizada con Monday.com",
       "40% de aumento en rendimiento operacional y de donaciones"
     ],
-    image: "/images/baq.png",
+    image: `${baseUrl}images/baq.png`,
     technologies: ["Next.js", "Nest.js", "Supabase", "TypeScript", "Monday.com API"],
     category_en: "Fintech & NGO",
     category_es: "Fintech & ONG"
@@ -42,7 +43,7 @@ const projects = [
       "Facturación electrónica integrada conforme a la normativa local",
       "Panel de analítica clínica centralizado"
     ],
-    image: "/images/odontologica.png",
+    image: `${baseUrl}images/odontologica.png`,
     technologies: ["React", "Node.js", "Express", "PostgreSQL"],
     category_en: "ERP & Healthcare",
     category_es: "ERP & Salud"
@@ -264,4 +265,4 @@ const projects = [
   .project-card {
     will-change: transform, border-color, box-shadow;
   }
-</style>
+</style>
