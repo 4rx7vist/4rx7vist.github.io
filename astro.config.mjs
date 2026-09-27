@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://4rx7vist.github.io',
+  base: '/',
   output: 'static',
   trailingSlash: 'always',
   vite: {
