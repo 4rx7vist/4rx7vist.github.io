@@ -1,58 +1,212 @@
 ---
+import Text from "./Text.astro";
+import { sitePath } from "../utils/paths";
 
+const initialTime = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Guayaquil",
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+})
+  .format(new Date())
+  .toLowerCase();
 ---
 
-<footer class="bg-black text-white py-6 flex items-center px-8">
-  <!-- Izquierda: espacio para otro contenido -->
-  <div class="flex-1 flex items-center gap-4 justify-start">
-    <span class="flex items-center gap-2 text-gray-300 font-sans">
-      Quito, Ecuador
-    </span>
-    <span id="footer-clock" class="text-sm opacity-70 flex-1"></span>
-  </div>
-  <!-- Centro: enlaces sociales -->
-  <div class="flex gap-8 justify-center flex-1">
-    <a
-      href="https://github.com/Alexiskeepcoding"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="p-2 rounded-full bg-gray-900 hover:bg-gray-700 transition-colors flex items-center"
-    >
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.305-5.466-1.334-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 013.003-.404c1.018.005 2.045.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.804 5.624-5.475 5.921.43.371.823 1.102.823 2.222v3.293c0 .322.218.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-        ></path>
-      </svg>
-    </a>
-    <a
-      href="https://www.instagram.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="p-2 rounded-full bg-gray-900 hover:bg-pink-700 transition-colors flex items-center"
-    >
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.974 1.246 2.242 1.308 3.608.058 1.266.069 1.646.069 4.851s-.011 3.584-.069 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.242 1.246-3.608 1.308-1.266.058-1.646.069-4.85.069s-3.584-.011-4.85-.069c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.242-1.308-3.608-.058-1.266-.069-1.646-.069-4.85s.011-3.584.069-4.851c.062-1.366.334-2.633 1.308-3.608.974-.974 2.242-1.246 3.608-1.308 1.266-.058 1.646-.069 4.85-.069zm0-2.163c-3.259 0-3.667.012-4.947.07-1.276.058-2.637.334-3.608 1.308-.974.974-1.25 2.242-1.308 3.608-.058 1.266-.069 1.646-.069 4.851s.011 3.584.069 4.85c.058 1.366.334 2.633 1.308 3.608.974.974 2.242 1.246 3.608 1.308 1.266.058 1.646.069 4.947.069s3.667-.011 4.947-.069c1.276-.062 2.637-.334 3.608-1.308.974-.974 1.25-2.242 1.308-3.608.058-1.266.069-1.646.069-4.85s-.011-3.584-.069-4.851c-.058-1.366-.334-2.633-1.308-3.608-.974-.974-2.242-1.25-3.608-1.308-1.266-.058-1.646-.07-4.947-.07zm0 5.838a6.163 6.163 0 100 12.326 6.163 6.163 0 000-12.326zm0 10.163a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"
-        ></path>
-      </svg>
-    </a>
-  </div>
-  <!-- Derecha: Powered by -->
-  <div class="text-sm opacity-70 flex-1 text-right">
-    Powered by <span class="font-semibold">4rx7vist</span>
+<footer>
+  <div class="page-width footer-inner">
+    <div class="footer-brand">
+      <span class="brand-title">ALEXIS_DEV</span>
+      <div class="footer-location-time">
+        <span>Quito, Ecuador</span>
+        <span class="time-sep" aria-hidden="true">·</span>
+        <span
+          id="footer-clock"
+          class="time-text"
+          aria-label="Hora actual en Ecuador"
+        >{initialTime}</span>
+      </div>
+    </div>
+
+    <div class="footer-actions">
+      <div class="social-links" aria-label="Redes sociales">
+        <a
+          href="https://github.com/4rx7vist"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-icon-link"
+          aria-label="GitHub"
+          title="GitHub"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+            ></path>
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/alexis-sotomayor"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-icon-link"
+          aria-label="LinkedIn"
+          title="LinkedIn"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.268h-3v-5.604c0-1.337-.026-3.063-1.868-3.063-1.868 0-2.156 1.459-2.156 2.968v5.699h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.838-1.563 3.036 0 3.599 2.001 3.599 4.601v5.595z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <a class="back-to-top" href={sitePath("#home")}>
+        <Text en="Back to top ↑" es="Volver arriba ↑" />
+      </a>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Actualiza la hora de Quito, Ecuador (GMT-5) cada segundo
-  function updateClock() {
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    const quitoTime = new Date(utc - 5 * 3600000);
-    const hours = String(quitoTime.getHours()).padStart(2, "0");
-    const minutes = String(quitoTime.getMinutes()).padStart(2, "0");
-    document.getElementById("footer-clock").textContent = `${hours}:${minutes}`;
+  function updateEcuadorClock() {
+    const clockEl = document.getElementById("footer-clock");
+    if (!clockEl) return;
+    try {
+      const now = new Date();
+      const timeStr = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Guayaquil",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })
+        .format(now)
+        .toLowerCase();
+      clockEl.textContent = timeStr;
+    } catch {
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const ecTime = new Date(utc - 5 * 3600000);
+      let hours = ecTime.getHours();
+      const minutes = String(ecTime.getMinutes()).padStart(2, "0");
+      const ampm = hours >= 12 ? "pm" : "am";
+      hours = hours % 12 || 12;
+      clockEl.textContent = `${hours}:${minutes} ${ampm}`;
+    }
   }
-  setInterval(updateClock, 1000);
-  updateClock();
+  updateEcuadorClock();
+  setInterval(updateEcuadorClock, 1000);
 </script>
+
+<style>
+  footer {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    transition:
+      background-color var(--motion-ui) var(--ease-out),
+      border-color var(--motion-ui) var(--ease-out);
+  }
+  .footer-inner {
+    padding-block: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    font-size: 0.8125rem;
+  }
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .brand-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-size: 0.875rem;
+    transition: color var(--motion-ui) var(--ease-out);
+  }
+  .footer-location-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: color var(--motion-ui) var(--ease-out);
+  }
+  .time-sep {
+    color: var(--line);
+  }
+  .time-text {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color var(--motion-ui) var(--ease-out);
+  }
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .social-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-control);
+    background: var(--soft);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    transition:
+      background-color var(--motion-ui) var(--ease-out),
+      border-color var(--motion-ui) var(--ease-out),
+      color var(--motion-ui) var(--ease-out),
+      transform var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out);
+  }
+  .social-icon-link:hover {
+    background: var(--paper);
+    color: var(--blue);
+    border-color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  .back-to-top {
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-radius: var(--radius-control);
+    transition: color var(--motion-fast);
+  }
+  .back-to-top:hover {
+    color: var(--blue);
+  }
+  @media (max-width: 650px) {
+    .footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .footer-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+</style>

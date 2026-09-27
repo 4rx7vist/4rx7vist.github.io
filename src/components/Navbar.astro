@@ -1,212 +1,165 @@
 ---
-
+import { sitePath } from '../utils/paths';
 ---
-
-<header
-  id="main-header"
-  class="fixed top-0 left-0 w-full z-50 bg-[#030712]/60 backdrop-blur-lg border-b border-white/5 transition-all duration-300 px-6 sm:px-12 py-5 flex justify-between items-center"
->
-  <!-- Brand / Logo -->
-  <a href="#" class="logo-group flex flex-col leading-tight select-none magnetic-target">
-    <span class="text-[10px] font-bold tracking-[0.2em] text-blue-400 uppercase">Studio</span>
-    <span class="text-lg font-black tracking-tight text-white">PORT VAULT<span class="text-blue-500">.</span></span>
-  </a>
-
-  <!-- Center Links (Cuberto-like navigation) -->
-  <nav class="hidden md:flex items-center gap-8">
-    <a href="#projects" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
-      <span class="lang-en-text">Projects</span>
-      <span class="lang-es-text">Proyectos</span>
-      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300"></span>
+<header class="site-header">
+  <div class="page-width nav-inner">
+    <a class="identity" href={sitePath()} aria-label="Alexis_dev, home">
+      <span class="identity-mark" aria-hidden="true">A<span>_</span></span>
+      <span class="identity-full">ALEXIS_DEV<span>.</span></span>
     </a>
-    <a href="#skills" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
-      <span class="lang-en-text">Tech Stack</span>
-      <span class="lang-es-text">Tecnologías</span>
-      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300"></span>
-    </a>
-    <a href="#achievements" class="nav-link text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 relative py-1">
-      <span class="lang-en-text">Systems</span>
-      <span class="lang-es-text">Sistemas</span>
-      <span class="nav-link-line absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300"></span>
-    </a>
-    
-    <!-- Typing brand animation embedded elegantly -->
-    <span
-      id="pseudo"
-      class="text-xs font-mono font-bold tracking-widest text-blue-300/80 bg-white/5 px-3 py-1.5 rounded-full select-none"
-    >
-      <span class="text-content"></span><span class="cursor">|</span>
-    </span>
-  </nav>
-
-  <!-- Right Call To Action & Lang Toggle -->
-  <div class="flex items-center gap-4 sm:gap-6">
-    <!-- Language Toggle -->
-    <button id="lang-toggle" class="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-gray-400 hover:text-white transition-colors duration-300" aria-label="Toggle Language">
-      <span class="lang-en text-white transition-colors duration-300">EN</span>
-      <span class="w-px h-3 bg-white/20"></span>
-      <span class="lang-es transition-colors duration-300">ES</span>
+    <nav class="section-nav" aria-label="Page sections">
+      <a href="#work" data-section-link="work"><span class="nav-index" aria-hidden="true">01</span><span class="nav-label" data-en="Work" data-es="Trabajo">Work</span></a>
+      <a href="#experience" data-section-link="experience"><span class="nav-index" aria-hidden="true">02</span><span class="nav-label" data-en="Experience" data-es="Experiencia">Experience</span></a>
+      <a href="#lab" data-section-link="lab"><span class="nav-index" aria-hidden="true">03</span><span class="nav-label" data-en="Lab" data-es="Lab">Lab</span></a>
+      <a href="#contact" data-section-link="contact"><span class="nav-index" aria-hidden="true">04</span><span class="nav-label" data-en="Contact" data-es="Contacto">Contact</span></a>
+    </nav>
+    <div class="languages" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+    </div>
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Activate dark mode">
+      <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+        <path d="M20 15.2A8.4 8.4 0 0 1 8.8 4a8.4 8.4 0 1 0 11.2 11.2Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.6" />
+        <path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
     </button>
-
-    <a
-      href="#contact"
-      class="magnetic-target text-xs sm:text-sm font-bold tracking-wide uppercase border border-white/20 hover:border-white/80 bg-transparent text-white px-5 sm:px-7 py-3 rounded-full hover:bg-white hover:text-black transition-all duration-300 hover:scale-105"
-      aria-label="Contact"
-    >
-      <span class="lang-en-text">Let's Talk</span>
-      <span class="lang-es-text">Hablemos</span>
-    </a>
+    <span class="scroll-track" aria-hidden="true"><span></span></span>
   </div>
 </header>
-
-<style>
-  /* Navigation link hover animation */
-  .nav-link:hover .nav-link-line {
-    width: 100%;
-  }
-
-  .cursor {
-    animation: blink 0.7s step-end infinite;
-  }
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-</style>
-
 <script>
-  import { gsap } from "gsap";
-  import { TextPlugin } from "gsap/TextPlugin";
-  
-  gsap.registerPlugin(TextPlugin);
-  
-  // 1. Text Typing Animation (GSAP)
-  function runTypingAnimation() {
-    const textElement = document.querySelector("#pseudo .text-content");
-    if (!textElement) {
-      setTimeout(runTypingAnimation, 200);
-      return;
-    }
-    
-    const text = "4rx7vist";
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
-    
-    gsap.set(textElement, { text: "" });
-    
-    tl.to(textElement, {
-      text: text,
-      duration: text.length * 0.15,
-      ease: "none",
-    })
-    .to({}, { duration: 1.5 })
-    .to(textElement, {
-      text: "",
-      duration: text.length * 0.08,
-      ease: "none",
-    })
-    .to({}, { duration: 0.5 });
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-lang]');
+  const sectionLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-section-link]'));
+  const themeButton = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+
+  function syncThemeControl() {
+    if (!themeButton) return;
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    const isSpanish = document.documentElement.lang === 'es';
+    themeButton.setAttribute('aria-pressed', String(isDark));
+    themeButton.setAttribute('aria-label', isSpanish
+      ? (isDark ? 'Activar modo claro' : 'Activar modo oscuro')
+      : (isDark ? 'Activate light mode' : 'Activate dark mode'));
+    if (themeColor) themeColor.content = isDark ? '#0f1115' : '#ffffff';
   }
 
-  // 2. Auto-Hide Navbar logic on Scroll
-  function setupNavbarScrollBehavior() {
-    const header = document.getElementById("main-header");
-    if (!header) return;
-
-    let lastScrollY = window.scrollY;
-
-    window.addEventListener("scroll", () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > 100) {
-        // Add shadow / background shift
-        header.classList.add("py-3", "bg-[#030712]/90");
-        header.classList.remove("py-5");
-
-        if (currentScrollY > lastScrollY) {
-          // Scrolling down - hide header
-          gsap.to(header, {
-            y: -100,
-            opacity: 0,
-            duration: 0.4,
-            ease: "power2.out"
-          });
-        } else {
-          // Scrolling up - show header
-          gsap.to(header, {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.out"
-          });
-        }
-      } else {
-        // At the top
-        header.classList.remove("py-3", "bg-[#030712]/90");
-        header.classList.add("py-5");
-        gsap.to(header, {
-          y: 0,
-          opacity: 1,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-      }
-
-      lastScrollY = currentScrollY;
+  function setLanguage(lang: string) {
+    document.documentElement.lang = lang;
+    buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.lang === lang)));
+    document.querySelectorAll<HTMLElement>('[data-en][data-es]').forEach(element => {
+      element.textContent = lang === 'es' ? element.dataset.es! : element.dataset.en!;
     });
-  }
-  
-  // 3. Language Toggle Logic
-  function setupLanguageToggle() {
-    const langToggle = document.getElementById("lang-toggle");
-    const langEn = langToggle?.querySelector(".lang-en");
-    const langEs = langToggle?.querySelector(".lang-es");
-    
-    if (langToggle && langEn && langEs) {
-      langToggle.addEventListener("click", () => {
-        const currentLang = document.documentElement.lang || "en";
-        const newLang = currentLang === "en" ? "es" : "en";
-        
-        document.documentElement.lang = newLang;
-        localStorage.setItem("preferred-lang", newLang);
-        
-        if (newLang === "es") {
-          langEn.classList.remove("text-white");
-          langEn.classList.add("text-gray-400");
-          langEs.classList.remove("text-gray-400");
-          langEs.classList.add("text-white");
-        } else {
-          langEs.classList.remove("text-white");
-          langEs.classList.add("text-gray-400");
-          langEn.classList.remove("text-gray-400");
-          langEn.classList.add("text-white");
-        }
-        
-        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
-      });
-
-      const savedLang = localStorage.getItem("preferred-lang");
-      if (savedLang === "es") {
-        document.documentElement.lang = "es";
-        langEn.classList.remove("text-white");
-        langEn.classList.add("text-gray-400");
-        langEs.classList.remove("text-gray-400");
-        langEs.classList.add("text-white");
-      }
-    }
+    try { localStorage.setItem('preferred-lang', lang); } catch {}
+    syncThemeControl();
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
   }
 
-  // Run on load
-  document.addEventListener("DOMContentLoaded", () => {
-    runTypingAnimation();
-    setupNavbarScrollBehavior();
-    setupLanguageToggle();
+  themeButton?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    try { localStorage.setItem('preferred-theme', nextTheme); } catch {}
+    syncThemeControl();
   });
 
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    setTimeout(() => {
-      runTypingAnimation();
-      setupNavbarScrollBehavior();
-    }, 100);
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  systemTheme.addEventListener('change', event => {
+    try {
+      if (localStorage.getItem('preferred-theme')) return;
+    } catch { return; }
+    document.documentElement.dataset.theme = event.matches ? 'dark' : 'light';
+    syncThemeControl();
+  });
+
+  buttons.forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.lang!)));
+
+  const trackedSections = sectionLinks.flatMap(link => {
+    const id = link.dataset.sectionLink;
+    const section = id ? document.getElementById(id) : null;
+    return id && section ? [{ id, link, section }] : [];
+  });
+  let sectionFrame = 0;
+
+  const updateActiveSection = () => {
+    sectionFrame = 0;
+    const focusLine = window.innerHeight * (window.innerWidth <= 800 ? .34 : .46);
+    let activeId = '';
+
+    for (const item of trackedSections) {
+      const bounds = item.section.getBoundingClientRect();
+      if (bounds.top <= focusLine && bounds.bottom > focusLine) {
+        activeId = item.id;
+        break;
+      }
+    }
+
+    sectionLinks.forEach(link => {
+      if (link.dataset.sectionLink === activeId) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const requestSectionUpdate = () => {
+    if (sectionFrame) return;
+    sectionFrame = requestAnimationFrame(updateActiveSection);
+  };
+
+  window.addEventListener('scroll', requestSectionUpdate, { passive: true });
+  window.addEventListener('resize', requestSectionUpdate, { passive: true });
+  updateActiveSection();
+  setLanguage(document.documentElement.lang);
+  syncThemeControl();
+</script>
+<style>
+  :global(body) { padding-left: 88px; }
+  :global(.skip-link) { left: 104px; }
+  .site-header { position: fixed; inset: 0 auto 0 0; width: 88px; background: var(--paper); border-right: 1px solid var(--line); z-index: 30; transition: background-color var(--motion-ui) var(--ease-out), border-color var(--motion-ui) var(--ease-out); }
+  .nav-inner { position: relative; width: 100%; min-height: 100%; margin: 0; padding: 26px 0; display: flex; flex-direction: column; align-items: center; }
+  .identity { font-weight: 750; letter-spacing: -.04em; }
+  .identity-mark { display: block; font-size: 1.5rem; line-height: 1; }
+  .identity-mark span, .identity-full > span { color: var(--blue); }
+  .identity-full { display: none; }
+  .section-nav { position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); display: grid; justify-items: center; gap: 8px; }
+  .section-nav a { position: relative; display: grid; place-items: center; width: 44px; height: 44px; color: var(--muted); font-size: .625rem; letter-spacing: .06em; transition: color var(--motion-fast) var(--ease-out); }
+  .section-nav a::after { content: ''; position: absolute; top: 12px; right: -22px; width: 2px; height: 20px; background: var(--blue); transform: scaleY(0); transform-origin: center; transition: transform var(--motion-ui) var(--ease-out); }
+  .section-nav a[aria-current="true"] { color: var(--blue); }
+  .section-nav a[aria-current="true"]::after { transform: scaleY(1); }
+  .nav-label { position: absolute; left: calc(100% + 30px); padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--paper); color: var(--ink); font-size: .6875rem; letter-spacing: 0; white-space: nowrap; opacity: 0; transform: translateX(-7px); pointer-events: none; transition: opacity var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out), background-color var(--motion-ui) var(--ease-out), border-color var(--motion-ui) var(--ease-out); }
+  .section-nav a:hover .nav-label, .section-nav a:focus-visible .nav-label { opacity: 1; transform: none; }
+  .languages { position: absolute; bottom: 24px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: .6875rem; color: var(--muted); }
+  .languages > span { transform: rotate(90deg); color: var(--line); }
+  .languages button { min-width: 32px; min-height: 44px; background: transparent; border: 0; color: var(--muted); }
+  .languages button[aria-pressed="true"] { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+  .theme-toggle { position: fixed; top: max(22px, env(safe-area-inset-top)); right: max(24px, env(safe-area-inset-right)); z-index: 31; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--ink); }
+  .theme-toggle svg { grid-area: 1 / 1; width: 20px; height: 20px; transition: opacity var(--motion-ui) var(--ease-out), transform var(--motion-ui) var(--ease-out); }
+  .sun-icon { opacity: 0; transform: rotate(-35deg) scale(.72); }
+  :global(html[data-theme="dark"]) .moon-icon { opacity: 0; transform: rotate(35deg) scale(.72); }
+  :global(html[data-theme="dark"]) .sun-icon { opacity: 1; transform: rotate(0) scale(1); }
+  .scroll-track { position: absolute; inset: 0 -1px 0 auto; width: 2px; overflow: hidden; pointer-events: none; }
+  .scroll-track > span { display: block; width: 100%; height: 100%; background: var(--blue); transform: scaleY(var(--scroll-progress, 0)); transform-origin: top; will-change: transform; }
+  @media(max-width: 800px) {
+    :global(body) { padding-left: 0; }
+    :global(.skip-link) { left: 16px; }
+    .site-header { position: sticky; inset: auto; top: 0; width: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+    .nav-inner { width: 100%; min-height: calc(120px + env(safe-area-inset-top)); margin-inline: auto; padding: env(safe-area-inset-top) 24px 0; flex-flow: row wrap; align-content: flex-start; }
+    .identity-mark, .scroll-track { display: none; }
+    .identity-full { display: block; font-size: 1.125rem; }
+    .identity, .languages { height: 76px; display: flex; align-items: center; }
+    .section-nav { position: static; order: 4; flex: 0 0 calc(100% + 48px); width: auto; height: 44px; margin-left: -24px; transform: none; display: flex; align-items: stretch; justify-content: stretch; border-top: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+    .section-nav::-webkit-scrollbar { display: none; }
+    .section-nav a { flex: 1 0 auto; width: auto; min-width: 76px; height: 44px; padding-inline: 12px; letter-spacing: 0; }
+    .section-nav a::after { top: auto; right: 12px; bottom: -1px; left: 12px; width: auto; height: 2px; transform: scaleX(0); }
+    .section-nav a[aria-current="true"]::after { transform: scaleX(1); }
+    .nav-index { display: none; }
+    .nav-label { position: static; padding: 0; border: 0; background: transparent; color: currentColor; font-size: .6875rem; opacity: 1; transform: none; pointer-events: auto; }
+    .languages { position: static; margin-left: auto; flex-direction: row; }
+    .languages > span { transform: none; }
+    .theme-toggle { position: static; z-index: auto; align-self: center; flex: 0 0 44px; margin-left: 4px; }
   }
-</script>
+  @media(hover: hover) { .theme-toggle:hover svg { color: var(--blue); transform: rotate(12deg) scale(1.04); } }
+  @media(pointer: coarse) { .theme-toggle:active svg { color: var(--blue); transform: scale(.88); } }
+  @media(max-width: 420px) { .nav-inner { padding-inline: 18px; } .section-nav { flex-basis: calc(100% + 36px); margin-left: -18px; } }
+</style>

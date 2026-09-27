@@ -1,75 +1,281 @@
 ---
-// Preloader.astro
+// Magnetic iron filings assemble the ALEXIS_DEV wordmark before the page appears.
 ---
 
-<div id="preloader" class="fixed inset-0 z-[100000] flex items-center justify-center bg-[#030712] text-white">
-  <div class="text-4xl md:text-7xl font-bold tracking-widest font-mono flex" id="scramble-container">
-    <!-- Letters will be injected here -->
-  </div>
+<div id="preloader" class="preloader" aria-hidden="true">
+  <canvas id="preloader-canvas"></canvas>
 </div>
 
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+    transition: opacity 700ms cubic-bezier(.16, 1, .3, 1), visibility 700ms;
+  }
+  .preloader.is-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  #preloader-canvas {
+    display: block;
+    width: min(92vw, 980px);
+    height: min(46vh, 420px);
+  }
+  @media (max-width: 600px) {
+    .preloader { transition-duration: 450ms; }
+    #preloader-canvas {
+      width: 94vw;
+      height: min(38vh, 300px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .preloader { display: none !important; }
+  }
+</style>
+
 <script>
-  import { gsap } from "gsap";
+(async function () {
+  const canvas = document.getElementById('preloader-canvas') as HTMLCanvasElement | null;
+  const preloader = document.getElementById('preloader');
+  if (!canvas || !preloader) return;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('scramble-container');
-    const preloader = document.getElementById('preloader');
-    
-    if (!container || !preloader) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const compactMotion = window.matchMedia('(max-width: 800px), (pointer: coarse)');
+  if (reduceMotion.matches) {
+    preloader.style.display = 'none';
+    return;
+  }
 
-    const finalWord = "4rx7vist";
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-    
-    // Create spans for each character
-    const charElements = finalWord.split('').map((char) => {
-      const span = document.createElement('span');
-      // Adding initial blur and making it occupy space
-      span.className = 'inline-block min-w-[1ch] text-center blur-[4px] transition-all duration-300';
-      span.textContent = chars[Math.floor(Math.random() * chars.length)];
-      container.appendChild(span);
-      return span;
+  const context = canvas.getContext('2d');
+  if (!context) {
+    preloader.style.display = 'none';
+    return;
+  }
+
+  // Give the brand font a brief chance to load before sampling its silhouette.
+  if (document.fonts?.ready) {
+    await Promise.race([
+      document.fonts.ready,
+      new Promise(resolve => window.setTimeout(resolve, 500)),
+    ]);
+  }
+
+  const WORDMARK = 'ALEXIS_DEV';
+  const totalDuration = compactMotion.matches ? 2100 : 3400;
+  const ASSEMBLY_START = 0.06;
+  const ASSEMBLY_END = 0.64;
+  const DISSOLVE_START = 0.84;
+
+  interface Particle {
+    startX: number;
+    startY: number;
+    targetX: number;
+    targetY: number;
+    arc: number;
+    delay: number;
+    phase: number;
+    length: number;
+    weight: number;
+    tone: number;
+    angle: number;
+  }
+
+  let width = 0;
+  let height = 0;
+  let particles: Particle[] = [];
+  let raf = 0;
+  let hidden = false;
+
+  const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const easeOutQuart = (value: number) => 1 - Math.pow(1 - value, 4);
+  const easeInCubic = (value: number) => value * value * value;
+
+  function drawTrackedText(
+    targetContext: CanvasRenderingContext2D,
+    text: string,
+    centerX: number,
+    baseline: number,
+    fontSize: number,
+    tracking: number,
+  ) {
+    targetContext.font = `600 ${fontSize}px "Nata Sans", Arial, sans-serif`;
+    targetContext.textBaseline = 'alphabetic';
+    const glyphs = [...text];
+    const widths = glyphs.map(glyph => targetContext.measureText(glyph).width);
+    const textWidth = widths.reduce((sum, glyphWidth) => sum + glyphWidth, 0) + tracking * (glyphs.length - 1);
+    let x = centerX - textWidth / 2;
+    glyphs.forEach((glyph, index) => {
+      targetContext.fillText(glyph, x, baseline);
+      x += widths[index] + tracking;
     });
+  }
 
-    let iterations = 0;
-    const maxIterations = 15; // Base iterations before letters start settling
+  function sampleWordmark() {
+    const mask = document.createElement('canvas');
+    mask.width = Math.max(1, Math.round(width));
+    mask.height = Math.max(1, Math.round(height));
+    const maskContext = mask.getContext('2d', { willReadFrequently: true });
+    if (!maskContext) return [] as [number, number][];
 
-    const interval = setInterval(() => {
-      charElements.forEach((span, index) => {
-        // Stagger the stopping of each letter from RIGHT to LEFT
-        const reversedIndex = charElements.length - 1 - index;
-        const letterMax = maxIterations + (reversedIndex * 6);
-        
-        if (iterations >= letterMax) {
-           span.textContent = finalWord[index];
-           span.classList.remove('blur-[4px]');
-           span.classList.add('text-[#3b82f6]', 'blur-none'); // Highlight and clear when settled
-        } else {
-           span.textContent = chars[Math.floor(Math.random() * chars.length)];
-           span.classList.remove('text-[#3b82f6]', 'blur-none');
-           span.classList.add('blur-[4px]');
-        }
-      });
+    const fontSize = Math.min(height * 0.31, width * 0.132);
+    const tracking = Math.max(1.5, fontSize * 0.055);
+    maskContext.fillStyle = '#000';
+    drawTrackedText(maskContext, WORDMARK, width / 2, height / 2 + fontSize * 0.34, fontSize, tracking);
 
-      // Total iterations until the first letter (index 0, reversedIndex 7) is done
-      if (iterations >= maxIterations + ((charElements.length - 1) * 6)) {
-        clearInterval(interval);
-        
-        // Wipe out preloader from RIGHT to LEFT after words are clear
-        gsap.to(preloader, {
-          clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)", // Wipes to the left
-          duration: 1.2,
-          delay: 0.6,
-          ease: "power3.inOut",
-          onStart: () => {
-             // ensure it starts fully visible as a polygon before wiping
-             gsap.set(preloader, { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" });
-          },
-          onComplete: () => {
-            preloader.style.display = 'none';
-          }
-        });
+    const pixels = maskContext.getImageData(0, 0, mask.width, mask.height).data;
+    const step = width < 480 ? 3 : 3.5;
+    const targets: [number, number][] = [];
+
+    for (let y = 0; y < height; y += step) {
+      for (let x = 0; x < width; x += step) {
+        const px = Math.min(mask.width - 1, Math.round(x));
+        const py = Math.min(mask.height - 1, Math.round(y));
+        if (pixels[(py * mask.width + px) * 4 + 3] > 96) targets.push([x, y]);
       }
-      iterations++;
-    }, 50); // Speed of the scramble
+    }
+
+    // Shuffling keeps neighboring filings from travelling in visible rows.
+    for (let index = targets.length - 1; index > 0; index--) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [targets[index], targets[swapIndex]] = [targets[swapIndex], targets[index]];
+    }
+
+    const limit = compactMotion.matches ? 720 : 2100;
+    if (targets.length <= limit) return targets;
+    const stride = targets.length / limit;
+    return Array.from({ length: limit }, (_, index) => targets[Math.floor(index * stride)]);
+  }
+
+  function createParticles() {
+    const targets = sampleWordmark();
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const orbitRadius = Math.hypot(width, height) * 0.48;
+
+    particles = targets.map(([targetX, targetY], index) => {
+      const targetAngle = Math.atan2(targetY - centerY, targetX - centerX);
+      const side = index % 2 === 0 ? -1 : 1;
+      const angle = targetAngle + side * (0.85 + Math.random() * 1.65);
+      const radius = orbitRadius * (0.55 + Math.random() * 0.72);
+
+      return {
+        startX: centerX + Math.cos(angle) * radius,
+        startY: centerY + Math.sin(angle) * radius * 0.72,
+        targetX: targetX + (Math.random() - 0.5) * 1.35,
+        targetY: targetY + (Math.random() - 0.5) * 1.35,
+        arc: side * (compactMotion.matches ? 12 + Math.random() * 28 : 20 + Math.random() * 54),
+        delay: Math.random() * 0.25,
+        phase: Math.random() * Math.PI * 2,
+        length: 1.8 + Math.random() * 3.7,
+        weight: 0.45 + Math.random() * 0.9,
+        tone: 24 + Math.floor(Math.random() * 72),
+        angle: Math.random() * Math.PI,
+      };
+    });
+  }
+
+  function resize() {
+    const bounds = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, compactMotion.matches ? 1.5 : 2);
+    width = bounds.width;
+    height = bounds.height;
+    canvas.width = Math.max(1, Math.round(width * dpr));
+    canvas.height = Math.max(1, Math.round(height * dpr));
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    context.lineCap = 'round';
+    createParticles();
+  }
+
+  function particlePosition(particle: Particle, assembly: number, time: number) {
+    const local = clamp((assembly - particle.delay) / (1 - particle.delay));
+    const settled = easeOutQuart(local);
+    const inverse = 1 - settled;
+    const curve = Math.sin(settled * Math.PI) * particle.arc;
+    const dx = particle.targetX - particle.startX;
+    const dy = particle.targetY - particle.startY;
+    const distance = Math.hypot(dx, dy) || 1;
+    const normalX = -dy / distance;
+    const normalY = dx / distance;
+    const vibrationStrength = compactMotion.matches ? 2.5 : 4.5;
+    const vibration = Math.sin(time * 0.008 + particle.phase) * vibrationStrength * inverse * inverse;
+
+    return {
+      x: particle.startX + dx * settled + normalX * (curve + vibration),
+      y: particle.startY + dy * settled + normalY * (curve + vibration),
+      settled,
+    };
+  }
+
+  function drawParticle(particle: Particle, x: number, y: number, settled: number, alpha: number, time: number) {
+    const travelAngle = Math.atan2(particle.targetY - y, particle.targetX - x);
+    const fieldAngle = travelAngle + Math.sin(time * 0.006 + particle.phase) * 0.28 * (1 - settled);
+    const angle = fieldAngle * (1 - settled) + particle.angle * settled;
+    const length = particle.length * (0.7 + settled * 0.55);
+    const halfX = Math.cos(angle) * length * 0.5;
+    const halfY = Math.sin(angle) * length * 0.5;
+
+    context.beginPath();
+    context.moveTo(x - halfX, y - halfY);
+    context.lineTo(x + halfX, y + halfY);
+    const darkTheme = document.documentElement.dataset.theme === 'dark';
+    const tone = darkTheme ? 212 - Math.round(particle.tone * 0.22) : particle.tone;
+    context.strokeStyle = `rgba(${tone}, ${tone}, ${darkTheme ? tone + 8 : tone + 4}, ${alpha})`;
+    context.lineWidth = particle.weight;
+    context.stroke();
+  }
+
+  function finish() {
+    if (hidden) return;
+    hidden = true;
+    preloader.classList.add('is-done');
+    window.setTimeout(() => { preloader.style.display = 'none'; }, compactMotion.matches ? 500 : 750);
+  }
+
+  const startTime = performance.now();
+  resize();
+
+  function frame(now: number) {
+    const progress = clamp((now - startTime) / totalDuration);
+    const assembly = clamp((progress - ASSEMBLY_START) / (ASSEMBLY_END - ASSEMBLY_START));
+    const dissolve = clamp((progress - DISSOLVE_START) / (1 - DISSOLVE_START));
+    const dissolveEase = easeInCubic(dissolve);
+
+    context.clearRect(0, 0, width, height);
+
+    for (const particle of particles) {
+      const position = particlePosition(particle, assembly, now);
+      const outwardX = position.x - width / 2;
+      const outwardY = position.y - height / 2;
+      const scatter = dissolveEase * (34 + particle.length * 9);
+      const distance = Math.hypot(outwardX, outwardY) || 1;
+      const x = position.x + (outwardX / distance) * scatter;
+      const y = position.y + (outwardY / distance) * scatter;
+      const arrivalAlpha = 0.2 + position.settled * 0.68;
+      const alpha = arrivalAlpha * (1 - dissolveEase);
+      drawParticle(particle, x, y, position.settled, alpha, now);
+    }
+
+    if (progress < 1) raf = requestAnimationFrame(frame);
+    else finish();
+  }
+
+  raf = requestAnimationFrame(frame);
+
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(resize, 100);
+  }, { passive: true });
+  window.addEventListener('pagehide', () => cancelAnimationFrame(raf), { once: true });
+  reduceMotion.addEventListener('change', () => {
+    if (!reduceMotion.matches) return;
+    cancelAnimationFrame(raf);
+    preloader.style.display = 'none';
   });
+})();
 </script>

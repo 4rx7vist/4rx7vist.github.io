@@ -1,254 +1,96 @@
 ---
-const experiences = [
-  {
-    company: "Digital Solutions Ltd.",
-    position: "Frontend Developer",
-    period: "2019 - 2021",
-    description: "Developed responsive web applications for enterprise clients using Vue.js and Nuxt.js. Worked closely with designers to implement pixel-perfect UI components.",
-    achievements: [
-      "Built an e-commerce platform serving over 10,000 daily active users",
-      "Implemented comprehensive unit and integration testing, achieving 90% code coverage",
-      "Optimized rendering performance for complex data visualizations"
-    ]
-  },
-];
+import Text from './Text.astro';
 
-const volunteering = [
+const responsibilities = [
   {
-    organization: "Banco De Alimentos Quito. BAQ",
-    role: "Backend Developer",
-    period: "2024 - Present",
-    description: "Design a microservice to support their mobile application, focusing on the efficient development and management of a RESTful API.",
-    achievements: [
-      "Implemented optimized input routes and integrated PostgreSQL to ensure structured, reliable data storage.",
-      "Created comprehensive technical documentation to support the API's usability and long-term maintenance.",
-      "Configured and managed separate development, testing, and production environments to ensure smooth deployment and scalability of the service."
-    ]
+    en: 'Design, build, and maintain backend services and APIs with clear boundaries and dependable integrations.',
+    es: 'Diseñar, construir y mantener servicios backend y APIs con límites claros e integraciones confiables.',
   },
   {
-    organization: "Local Community Center",
-    role: "IT Support Volunteer",
-    period: "2018 - 2020",
-    description: "Provided technical support and training to community members on basic computer skills and internet usage.",
-    achievements: []
-  }
+    en: 'Automate CI/CD pipelines and release workflows across development, staging, and production environments.',
+    es: 'Automatizar pipelines de CI/CD y procesos de despliegue entre entornos de desarrollo, staging y producción.',
+  },
+  {
+    en: 'Operate cloud infrastructure, containers, secrets, monitoring, logs, and alerts for production systems.',
+    es: 'Operar infraestructura cloud, contenedores, secretos, monitoreo, logs y alertas para sistemas en producción.',
+  },
+  {
+    en: 'Improve database performance, service reliability, incident response, and technical documentation.',
+    es: 'Mejorar el rendimiento de bases de datos, la confiabilidad de servicios, la respuesta a incidentes y la documentación técnica.',
+  },
 ];
-
-const timelineItems = [
-  ...experiences.map(exp => ({ ...exp, type: 'professional' })),
-  ...volunteering.map(vol => ({ ...vol, type: 'volunteering' }))
-].sort((a, b) => {
-  const yearA = parseInt(a.period.split(' - ')[0]);
-  const yearB = parseInt(b.period.split(' - ')[0]);
-  return yearB - yearA;
-});
-
-// Normalizar campos para evitar checks de tipo en el template
-const normalizedTimelineItems = timelineItems.map(item => ({
-  ...item,
-  title: item.position ?? item.role ?? item.organization ?? item.company ?? '',
-  subtitle: item.company ?? item.organization ?? ''
-}));
 ---
-<section class="bg-black py-20 px-4 relative overflow-hidden">
-  <!-- fondo decorativo eliminado -->
 
-  <div class="max-w-6xl mx-auto relative z-10">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-5xl font-bold text-white mb-4" id="exp-title">Experience</h2>
-      <p class="text-gray-400 text-lg" id="exp-subtitle">Professional Journey & Contributions</p>
-    </div>
+<section id="experience" class="experience" aria-labelledby="experience-title">
+  <div class="experience-inner page-width">
+    <header class="experience-heading" data-reveal="heading">
+      <p class="section-label"><Text en="EXPERIENCE" es="EXPERIENCIA" /></p>
+      <div>
+        <h2 id="experience-title"><Text en="Building what keeps products running." es="Construyendo lo que mantiene los productos funcionando." /></h2>
+        <p><Text en="Backend engineering and cloud operations, approached as one connected system." es="Ingeniería backend y operaciones cloud, abordadas como un solo sistema conectado." /></p>
+      </div>
+    </header>
 
-    <div class="relative">
-      <!-- Línea vertical rainbow animable -->
-      <div
-        id="timeline-line"
-        class="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 w-1.5 rounded-lg opacity-90"
-        style="height: 0; background: linear-gradient(180deg, #ff4d4d 0%, #ff9a4d 20%, #ffd24d 40%, #6eff6e 60%, #4dd7ff 80%, #9b63ff 100%); background-size: 100% 200%;"
-      ></div>
+    <article class="role">
+      <div class="role-meta" data-reveal="copy">
+        <p class="role-type"><Text en="CURRENT FOCUS" es="ENFOQUE ACTUAL" /></p>
+        <h3>Backend Engineering<br />/ DevOps</h3>
+        <p class="company"><Text en="Startup Tech Company" es="Startup tecnológica" /></p>
+      </div>
 
-      <div class="space-y-12 md:space-y-16">
-        {normalizedTimelineItems.map((item, index) => (
-          <div
-            class={`timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
-            data-index={index}
-          >
-            <!-- Flecha (reemplaza dot) -->
-            <div
-              class={`timeline-dot absolute left-6 md:left-1/2 transform md:-translate-x-1/2 z-10 flex items-center justify-center pointer-events-auto`}
-              data-side={index % 2 === 0 ? 'left' : 'right'}
-            >
-              <div class="timeline-arrow w-10 h-10 flex items-center justify-center rounded-md bg-[#262626] border-4 border-black shadow-lg">
-                <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M6 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-            </div>
+      <div class="role-details" data-reveal="list">
+        <h4><Text en="Key responsibilities" es="Responsabilidades principales" /></h4>
+        <ul>
+          {responsibilities.map((responsibility) => (
+            <li><span aria-hidden="true">↳</span><p><Text {...responsibility} /></p></li>
+          ))}
+        </ul>
+      </div>
+    </article>
 
-            <!-- Contenido del item -->
-            <div class={`timeline-content flex-1 ml-16 md:ml-0 ${index % 2 === 0 ? 'md:text-right md:pr-8' : 'md:pl-8'}`}>
-              <div class="text-sm text-gray-400">{item.period}</div>
-              <h3 class="text-lg md:text-2xl font-semibold text-white mt-1">{item.title}</h3>
-              <div class="text-base text-gray-300">{item.subtitle}</div>
-              <p class="text-gray-400 mt-2">{item.description}</p>
-
-              {item.achievements && item.achievements.length > 0 ? (
-                <ul class="mt-3 list-disc list-inside text-gray-400 space-y-1">
-                  {item.achievements.map((ach) => <li>{ach}</li>)}
-                </ul>
-              ) : null}
-            </div>
-
-            <!-- Spacer para balance en desktop -->
-            <div class="hidden md:block flex-1"></div>
-          </div>
-        ))}
+    <div class="certificate-row" data-reveal="copy">
+      <div>
+        <p class="section-label"><Text en="CERTIFICATE" es="CERTIFICADO" /></p>
+        <p class="certificate-note"><Text en="Cloud architecture" es="Arquitectura cloud" /></p>
+      </div>
+      <div class="certificate-name">
+        <span class="aws-mark" aria-hidden="true">AWS / SAA</span>
+        <h3>AWS Certified Solutions Architect – Associate</h3>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .timeline-dot { width: 44px; height: 44px; pointer-events: auto; }
-  .timeline-dot[data-side="right"] .timeline-arrow svg {
-    transform: rotate(180deg);
-  }
+  .experience { border-top: 1px solid var(--line); }
+  .experience-inner { padding-block: var(--space-section); }
+  .experience-heading { display: grid; grid-template-columns: .62fr 1.38fr; gap: clamp(48px, 8vw, 120px); align-items: start; margin-bottom: 78px; }
+  .experience-heading h2 { max-width: 13ch; font-size: clamp(3rem, 5.1vw, 5rem); line-height: 1.04; font-weight: 550; letter-spacing: -.04em; }
+  .experience-heading > div > p { max-width: 54ch; margin-top: 26px; color: var(--muted); font-size: .9375rem; }
+  .role { display: grid; grid-template-columns: .62fr 1.38fr; gap: clamp(48px, 8vw, 120px); padding-top: 28px; border-top: 1px solid var(--ink); }
+  .role-type { color: var(--blue); font-size: .6875rem; letter-spacing: .06em; }
+  .role-meta h3 { margin-top: 18px; font-size: clamp(2rem, 3.7vw, 3.3rem); font-weight: 550; line-height: 1.12; letter-spacing: -.035em; }
+  .company { margin-top: 18px; color: var(--muted); font-size: .875rem; }
+  .role-details h4 { margin: 0 0 22px; font-size: 1.125rem; font-weight: 550; }
+  .role-details ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .role-details li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding-block: 18px; border-bottom: 1px solid var(--line); }
+  .role-details li > span { color: var(--blue); font-size: .8125rem; padding-top: 2px; }
+  .role-details li p { max-width: 68ch; font-size: .8125rem; color: var(--muted); }
+  .certificate-row { display: grid; grid-template-columns: .62fr 1.38fr; gap: clamp(48px, 8vw, 120px); margin-top: 76px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .certificate-note { margin-top: 10px; color: var(--muted); font-size: .6875rem; }
+  .certificate-name { display: flex; align-items: baseline; justify-content: space-between; gap: 32px; }
+  .certificate-name h3 { max-width: 24ch; font-size: 1.125rem; font-weight: 550; line-height: 1.45; }
+  .aws-mark { order: 2; flex: 0 0 auto; color: var(--blue); font-size: .6875rem; letter-spacing: .06em; }
 
-  .timeline-arrow {
-    transition: transform .25s ease, box-shadow .25s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  @media(max-width: 800px) {
+    .experience-heading, .role, .certificate-row { grid-template-columns: 1fr; gap: 34px; }
+    .experience-heading { margin-bottom: 56px; }
+    .experience-heading h2 { max-width: 12ch; }
+    .role-details h4 { margin-top: 10px; }
+    .certificate-row { margin-top: 56px; }
   }
-
-  .timeline-arrow:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  }
-
-  /* Ajustes responsivos para que la línea no tape contenido en mobile */
-  @media (max-width: 767px) {
-    #timeline-line { left: 1rem !important; transform: none !important; }
-    .timeline-dot { left: 1rem !important; transform: none !important; }
-    .timeline-content { margin-left: 4.5rem !important; }
+  @media(max-width: 520px) {
+    .certificate-name { align-items: flex-start; flex-direction: column; gap: 14px; }
+    .aws-mark { order: initial; }
   }
 </style>
-
-<script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  function initExperienceAnimations() {
-    // Título
-    const titleTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#exp-title",
-        start: "top 80%",
-        end: "bottom 60%",
-        toggleActions: "play none none reverse"
-      }
-    });
-
-    titleTl
-      .from("#exp-title", { duration: 1, y: 50, opacity: 0, ease: "power2.out" })
-      .from("#exp-subtitle", { duration: 0.8, y: 30, opacity: 0, ease: "power2.out" }, "-=0.5");
-
-  // fondo decorativo eliminado (no hay elemento #experience-bg-text)
-
-    // Línea rainbow: altura y desplazamiento del degradado
-    const line = document.getElementById("timeline-line");
-    if (line) {
-      gsap.to(line, {
-        height: "100%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: line,
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: 1
-        }
-      });
-
-      gsap.to(line, {
-        backgroundPositionY: "200%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: line,
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: 1
-        }
-      });
-    }
-
-    // Animación por item
-    const items = gsap.utils.toArray(".timeline-item");
-    items.forEach((item, index) => {
-      const content = item.querySelector(".timeline-content");
-      const dot = item.querySelector(".timeline-dot");
-      const isEven = index % 2 === 0;
-
-      const itemTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: item,
-          start: "top 85%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      itemTl.from(dot, { duration: 0.6, scale: 0, opacity: 0, ease: "back.out(1.7)" });
-
-      itemTl.from(content, {
-        duration: 0.8,
-        x: isEven && window.innerWidth >= 768 ? 50 : -50,
-        opacity: 0,
-        ease: "power2.out"
-      }, "-=0.3");
-
-      const achievements = content.querySelectorAll("li");
-      if (achievements.length > 0) {
-        itemTl.from(achievements, {
-          duration: 0.5,
-          x: isEven && window.innerWidth >= 768 ? 30 : -30,
-          opacity: 0,
-          stagger: 0.1,
-          ease: "power2.out"
-        }, "-=0.4");
-      }
-    });
-
-    // Hover effects
-    items.forEach((item) => {
-      const content = item.querySelector(".timeline-content");
-      const dot = item.querySelector(".timeline-dot");
-
-      item.addEventListener("mouseenter", () => {
-        gsap.to(dot, { duration: 0.25, scale: 1.12, ease: "power2.out" });
-        gsap.to(content, { duration: 0.25, y: -6, ease: "power2.out" });
-      });
-
-      item.addEventListener("mouseleave", () => {
-        gsap.to(dot, { duration: 0.25, scale: 1, ease: "power2.out" });
-        gsap.to(content, { duration: 0.25, y: 0, ease: "power2.out" });
-      });
-    });
-  }
-
-  if (document.readyState === "loading") {
-    window.addEventListener("DOMContentLoaded", initExperienceAnimations);
-  } else {
-    initExperienceAnimations();
-  }
-
-  let resizeTimeout;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 250);
-  });
-</script>

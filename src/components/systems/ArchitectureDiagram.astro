@@ -1,0 +1,24 @@
+---
+import ArchitectureNode from './ArchitectureNode.astro';
+import Text from '../Text.astro';
+import type { SystemNode } from '../../data/systems';
+interface Props { nodes: SystemNode[]; compact?: boolean }
+const { nodes, compact = false } = Astro.props;
+---
+<figure class:list={['architecture', { compact }]}>
+  <figcaption><span>ARCHITECTURE</span><span><Text en="Conceptual flow" es="Flujo conceptual" /></span></figcaption>
+  <ol>
+    {nodes.map((node) => <li><ArchitectureNode {...node} compact={compact} /></li>)}
+  </ol>
+  <p><Text en="Read left to right · each connection represents a system boundary." es="De izquierda a derecha · cada conexión representa un límite del sistema." /></p>
+</figure>
+<style>
+  .architecture { margin: 0; background: var(--inspector); padding: 32px; color: #f5f7fb; border-radius: var(--radius-media); }
+  figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: .6875rem; color: #b2bfd2; }
+  figcaption > span:first-child { color: #a9bfff; letter-spacing: .08em; }
+  ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; list-style: none; margin: 44px 0 30px; padding: 0; }
+  li { position: relative; min-width: 0; } li + li::before { content: '→'; position: absolute; left: -19px; top: 50%; transform: translateY(-50%); color: #a9bfff; }
+  p { font-size: .6875rem; color: #b2bfd2; }
+  .compact { padding: 26px; } .compact ol { gap: 18px; } .compact li + li::before { left: -16px; }
+  @media(max-width: 600px) { .architecture { padding: 24px; } ol { grid-template-columns: 1fr; gap: 25px; margin: 24px 0; } li + li::before { content: '↓'; top: -23px; left: 50%; transform: none; } .compact ol { gap: 25px; } .compact li + li::before { left: 50%; } p { display: none; } }
+</style>

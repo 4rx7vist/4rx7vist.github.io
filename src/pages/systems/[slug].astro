@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Text from '../../components/Text.astro';
+import ArchitectureDiagram from '../../components/systems/ArchitectureDiagram.astro';
+import SystemMetadata from '../../components/systems/SystemMetadata.astro';
+import { systems, type System } from '../../data/systems';
+import { systemMedia } from '../../data/system-media';
+import { sitePath } from '../../utils/paths';
+export function getStaticPaths() {
+  return systems.filter(system => system.caseStudyAvailable).map(system => ({ params: { slug: system.slug }, props: { system } }));
+}
+interface Props { system: System }
+const { system } = Astro.props;
+const media = systemMedia[system.slug as keyof typeof systemMedia];
+const sections = [
+  { en: 'Context', es: 'Contexto', copy: system.summary },
+  { en: 'Problem', es: 'Problema', copy: system.problem },
+  { en: 'Constraints', es: 'Restricciones', copy: system.constraints },
+  { en: 'System design', es: 'Diseño del sistema', copy: system.architectureNote },
+  { en: 'Implementation', es: 'Implementación', copy: system.implementation },
+  { en: 'Engineering decisions', es: 'Decisiones de ingeniería', copy: system.decisions },
+  { en: 'Result', es: 'Resultado', copy: system.result },
+  { en: 'Lessons', es: 'Aprendizajes', copy: system.lessons },
+];
+---
+<Layout title={`${system.name.en} — System notes · PORTVAULT`} description={`${system.summary.en} Architecture and implementation notes from the PORTVAULT software engineering portfolio.`}>
+  <article class="case-study page-width">
+    <a class="text-link" href={sitePath('#work')}><span aria-hidden="true">←</span><Text en="All systems" es="Todos los sistemas" /></a>
+    <header class="case-header"><p class="section-label"><Text en="SYSTEM NOTES / DRAFT" es="NOTAS DEL SISTEMA / BORRADOR" /></p><h1><Text {...system.name} /></h1><p class="case-summary"><Text {...system.summary} /></p></header>
+    <div class="draft-note"><Text en="These notes preserve the existing project information. TODO marks details that still need to be documented or verified." es="Estas notas conservan la información existente del proyecto. TODO señala los detalles que aún deben documentarse o verificarse." /></div>
+    <SystemMetadata system={system} detailed />
+    {media && <figure class="case-image"><Image src={media} alt={system.name.en} widths={[600, 1000, 1500].filter(width => width <= media.width)} sizes="(max-width: 800px) calc(100vw - 48px), 1100px" width={Math.min(1500, media.width)} format="webp" loading="eager" /><figcaption><Text {...system.imageCaption!} /></figcaption></figure>}
+    <div class="case-content">
+      {sections.map((section, index) => <section class="case-section"><h2><Text en={section.en} es={section.es} /></h2><div><p class:list={{ pending: section.copy.en.startsWith('TODO') }}><Text {...section.copy} /></p>{index === 3 && <div class="case-architecture"><h3><Text en="Architecture" es="Arquitectura" /></h3><ArchitectureDiagram nodes={system.architecture} /></div>}</div></section>)}
+    </div>
+    <div class="case-contact"><h2 class="section-title"><Text en="Working on a similar problem?" es="¿Trabajas en un problema similar?" /></h2><a class="button-primary" href={sitePath('#contact')}><Text en="Let’s talk about your system" es="Hablemos de tu sistema" /><span aria-hidden="true">↗</span></a></div>
+  </article>
+</Layout>
+<style>
+  .case-study { padding-block: 40px 90px; }
+  .case-header { padding-block: 50px 35px; max-width: 900px; }
+  h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); letter-spacing: -.04em; font-weight: 550; line-height: 1.05; margin-top: 24px; }
+  .case-summary { color: var(--muted); margin-top: 28px; font-size: 1.125rem; max-width: 55ch; }
+  .draft-note { font-size: .8125rem; color: var(--muted); background: var(--soft); padding: 18px 22px; margin-bottom: 34px; border-radius: 6px; }
+  .case-image { margin: 50px 0; } .case-image img { width: 100%; max-height: 580px; object-fit: cover; border-radius: 12px; } figcaption { font-size: .6875rem; color: var(--muted); margin-top: 12px; }
+  .case-content { margin-top: 64px; }
+  .case-section { display: grid; grid-template-columns: 220px 1fr; gap: 50px; border-top: 1px solid var(--line); padding-block: 35px; }
+  .case-section h2 { font-size: 1rem; font-weight: 550; } .case-section p { max-width: 72ch; color: var(--muted); font-size: .9375rem; } .pending { font-size: .8125rem !important; }
+  .case-architecture { margin-top: 32px; } h3 { font-size: .875rem; font-weight: 500; margin-bottom: 16px; }
+  .case-contact { padding-top: 60px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 50px; } .case-contact h2 { max-width: 18ch; } .case-contact a { flex-shrink: 0; }
+  @media(max-width: 800px) { .case-section { grid-template-columns: 1fr; gap: 16px; } .case-contact { align-items: flex-start; flex-direction: column; gap: 25px; } .case-header { padding-top: 30px; } }
+</style>

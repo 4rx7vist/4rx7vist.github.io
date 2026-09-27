@@ -1,0 +1,89 @@
+---
+import Text from '../Text.astro';
+const blocks = [
+  { id: 'client', build: 'Code', system: 'Client', sub: 'INTERFACE', x: 55, y: 50, sx: 15, sy: 100, number: '01', kind: 'client' },
+  { id: 'edge', build: 'Cloud', system: 'CloudFront', sub: 'DELIVERY', x: 345, y: 50, sx: 205, sy: 100, number: '02', kind: 'cloud' },
+  { id: 'traffic', build: 'Traffic', system: 'Load balancer', sub: 'ROUTING', x: 55, y: 195, sx: 395, sy: 100, number: '03', kind: 'service' },
+  { id: 'runtime', build: 'Containers', system: 'ECS', sub: 'RUNTIME', x: 345, y: 195, sx: 395, sy: 305, number: '04', kind: 'service' },
+  { id: 'api', build: 'APIs', system: 'API', sub: 'LOGIC', x: 55, y: 340, sx: 205, sy: 305, number: '05', kind: 'api' },
+  { id: 'data', build: 'Data', system: 'Database', sub: 'PERSISTENCE', x: 345, y: 340, sx: 15, sy: 305, number: '06', kind: 'database' },
+];
+const connections = [
+  ['M 205 92 C 245 92 265 92 305 92', 'M 165 142 C 180 142 188 142 201 142'],
+  ['M 420 135 C 420 155 130 160 130 175', 'M 355 142 C 370 142 378 142 391 142'],
+  ['M 205 237 C 245 237 265 237 305 237', 'M 470 184 C 470 220 470 266 470 300'],
+  ['M 420 280 C 420 300 130 305 130 320', 'M 395 347 C 381 347 371 347 359 347'],
+  ['M 205 382 C 245 382 265 382 305 382', 'M 205 347 C 191 347 181 347 169 347'],
+];
+---
+<div class="morph" data-build-system data-mode="build">
+  <div class="morph-heading">
+    <span class="stage-label"><Text en="Two sides of the same work" es="Dos caras del mismo trabajo" /></span>
+    <div class="mode-switch" role="group" aria-label="Architecture mode">
+      <button type="button" data-mode-button="build" aria-pressed="true">Build</button>
+      <button type="button" data-mode-button="system" aria-pressed="false">System</button>
+    </div>
+  </div>
+  <div class="morph-stage">
+    <svg class="morph-svg" data-morph-svg viewBox="0 0 560 470" role="img" aria-labelledby="morph-title morph-description">
+      <title id="morph-title">Build → System</title>
+      <desc id="morph-description">Engineering components become an illustrative architecture: client, CloudFront, load balancer, ECS, API, database. The same flow is described below.</desc>
+      <defs><marker id="flow-arrow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0 0 L5 2.5 L0 5" fill="#2457eb" /></marker></defs>
+      <g class="connections" fill="none" stroke="#2457eb" stroke-width="1.6" marker-end="url(#flow-arrow)">
+        {connections.map(([from, to]) => <path data-connection data-from={from} data-to={to} d={from} />)}
+      </g>
+      {blocks.map(block => <g class:list={['morph-node', block.kind]} data-node data-x={block.x} data-y={block.y} data-sx={block.sx} data-sy={block.sy} transform={`translate(${block.x} ${block.y})`}>
+        <rect class="node-surface" x="0" y="0" width="150" height="84" rx="5" />
+        <path class="node-mark" d="M14 18 H28" />
+        <text class="node-sub" x="36" y="21">{block.sub}</text>
+        <text class="node-name" data-node-label data-build-label={block.build} data-system-label={block.system} x="14" y="57">{block.build}</text>
+        <text class="node-number" x="126" y="22">{block.number}</text>
+      </g>)}
+      <g class="build-annotation"><path d="M255 228 H305 M280 203 V253" stroke="#c8ccd4" stroke-width="1"/><text x="280" y="275" text-anchor="middle">ENGINEERING</text></g>
+      <g class="system-annotation"><text x="280" y="242" text-anchor="middle">A REQUEST. A CONNECTED SYSTEM.</text></g>
+    </svg>
+    <div class="mobile-flow" aria-hidden="true">Client <span>→</span> CloudFront <span>→</span> Load balancer<br />ECS <span>→</span> API <span>→</span> Database</div>
+  </div>
+  <div class="morph-caption" aria-live="polite" aria-atomic="true">
+    <div data-caption="build"><strong><Text en="The building blocks." es="Las piezas de ingeniería." /></strong><p><Text en="Code, infrastructure, and the decisions that connect them. Switch to System to follow a request." es="Código, infraestructura y las decisiones que los conectan. Cambia a System para seguir una petición." /></p></div>
+    <div data-caption="system" hidden><strong><Text en="The system they become." es="El sistema que forman." /></strong><p><Text en="Client → CloudFront → load balancer → ECS → API → database. An illustrative request flow, not a project deployment claim." es="Cliente → CloudFront → balanceador → ECS → API → base de datos. Un flujo ilustrativo, no un despliegue declarado." /></p><a href="#systems"><Text en="Inspect my systems ↗" es="Explora mis sistemas ↗" /></a></div>
+  </div>
+  <noscript><p class="no-script">Client → CloudFront → load balancer → ECS → API → database.</p></noscript>
+</div>
+<script src="./build-system-morph.ts"></script>
+<style>
+  .morph { min-width: 0; }
+  .morph-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .stage-label { font-size: .75rem; color: var(--muted); }
+  .mode-switch { display: inline-flex; background: var(--soft); padding: 4px; border-radius: 7px; }
+  button { font-size: .75rem; padding: 10px 16px; min-height: 40px; border: 0; background: transparent; border-radius: 4px; color: var(--muted); }
+  button[aria-pressed="true"] { color: white; background: var(--ink); }
+  .morph-stage { margin-top: 12px; }
+  .morph-svg { width: 100%; overflow: visible; }
+  .node-surface { fill: white; stroke: #c5cbd4; stroke-width: 1; transition: fill var(--motion-section), stroke var(--motion-section); }
+  .node-sub { fill: var(--muted); font-size: 8px; font-weight: 500; letter-spacing: .07em; }
+  .node-name { fill: var(--ink); font-size: 16px; font-weight: 550; letter-spacing: -.02em; }
+  .node-mark { stroke: var(--blue); stroke-width: 2; }
+  .node-number { fill: var(--muted); font-size: 8px; }
+  .connections { opacity: 0; transition: opacity var(--motion-section); }
+  .build-annotation, .system-annotation { transition: opacity var(--motion-ui); }
+  .build-annotation text, .system-annotation text { font-size: 8px; letter-spacing: .06em; fill: var(--muted); }
+  .system-annotation { opacity: 0; }
+  [data-mode="system"] .connections { opacity: 1; }
+  [data-mode="system"] .build-annotation { opacity: 0; }
+  [data-mode="system"] .system-annotation { opacity: 1; }
+  [data-mode="system"] .api .node-surface { fill: var(--blue); stroke: var(--blue); }
+  [data-mode="system"] .api text { fill: white; }
+  [data-mode="system"] .api .node-mark { stroke: white; }
+  .morph-caption { border-top: 1px solid var(--line); padding-top: 20px; min-height: 133px; }
+  .morph-caption strong { font-size: .875rem; font-weight: 550; }
+  .morph-caption p { font-size: .75rem; line-height: 1.6; color: var(--muted); max-width: 56ch; margin-top: 7px; }
+  .morph-caption a { font-size: .75rem; display: inline-block; color: var(--blue); padding: 8px 0; }
+  .morph-caption [data-caption]:not([hidden]) { animation: caption-in var(--motion-section) var(--ease-out); }
+  @keyframes caption-in { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  .mobile-flow { display: none; }
+  .no-script { font-size: .75rem; }
+  @media(max-width: 800px) { .morph { max-width: 600px; width: 100%; margin-inline: auto; } .morph-caption { min-height: 115px; } }
+  @media(max-width: 600px) { .build-annotation, .system-annotation { display: none; } .node-sub, .node-number { font-size: 9px; } .morph-caption { min-height: 145px; } }
+  @media(max-width: 400px) { .morph-heading { flex-direction: column; align-items: flex-start; gap: 12px; } .mode-switch { width: 100%; } button { width: 50%; } }
+</style>

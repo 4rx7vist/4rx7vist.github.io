@@ -1,252 +1,123 @@
 ---
-import Footer from "../components/Footer.astro";
-import Navbar from "../components/Navbar.astro";
-import Preloader from "../components/Preloader.astro";
-// cache bust: 1
+import Footer from '../components/Footer.astro';
+import Navbar from '../components/Navbar.astro';
+import Preloader from '../components/Preloader.astro';
+import Text from '../components/Text.astro';
+import { sitePath } from '../utils/paths';
+import '../styles/global.css';
+interface Props { title?: string; description?: string }
+const {
+  title = 'ALEXIS_DEV — Software Engineer · Alexis Sotomayor',
+  description = 'Software, infrastructure, and systems. Explore the engineering work of Alexis Sotomayor: backend architecture, integrations, automation, and cloud.',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}portfolio_logo.png`} />
-    <meta name="generator" content={Astro.generator} />
-    <title>Port Vault Studio | High-Impact Tech Solutions</title>
-    <!-- Premium Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <script is:inline>
+      try {
+        const savedTheme = localStorage.getItem('preferred-theme');
+        document.documentElement.dataset.theme = savedTheme === 'dark' || savedTheme === 'light'
+          ? savedTheme
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="ALEXIS_DEV" />
+    <link rel="icon" type="image/png" href={sitePath('portfolio_logo.png')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nata+Sans:wght@400;500;550;600;650;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+    <script is:inline>
+      try { document.documentElement.lang = localStorage.getItem('preferred-lang') === 'es' ? 'es' : 'en'; } catch {}
+    </script>
   </head>
   <body>
     <Preloader />
-    <!-- Custom Cursor elements -->
-    <div class="custom-cursor-dot" id="cursor-dot"></div>
-
+    <a class="skip-link" href="#main"><Text en="Skip to content" es="Ir al contenido" /></a>
     <Navbar />
-    <slot />
+    <main id="main"><slot /></main>
     <Footer />
-
     <script>
-      import { gsap } from "gsap";
-      import Lenis from "lenis";
+      import Lenis from 'lenis';
 
-      // 1. Initialize Lenis Smooth Scroll
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-        infinite: false,
-      });
+      const smoothScrollContext = window.matchMedia('(min-width: 801px) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+      let lenis: Lenis | undefined;
+      let animationFrame = 0;
 
-      // Hook Lenis into GSAP ScrollTrigger
-      lenis.on('scroll', () => {
-        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
-          ScrollTrigger.update();
-        });
-      });
-
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-
-      gsap.ticker.lagSmoothing(0);
-
-      // Make lenis globally available if needed
-      window.lenis = lenis;
-
-      // 2. Custom Cursor Follower (only for hoverable devices)
-      const cursorDot = document.getElementById('cursor-dot');
-
-      if (cursorDot && window.matchMedia('(hover: hover)').matches) {
-        gsap.set(cursorDot, { xPercent: -50, yPercent: -50, opacity: 1 });
-
-        let mouseX = 0;
-        let mouseY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-          
-          gsap.to(cursorDot, {
-            x: mouseX,
-            y: mouseY,
-            duration: 0.05,
-          });
-        });
-
-        // Setup Cursor Hovers
-        const setupCursorHover = () => {
-          const hoverElements = document.querySelectorAll(
-            'a, button, [role="button"], input, textarea, .project-card, .skill-card, .achievement-row'
-          );
-
-          hoverElements.forEach((el) => {
-            // Avoid duplicate listeners
-            if (el.getAttribute('data-cursor-hovered') === 'true') return;
-            el.setAttribute('data-cursor-hovered', 'true');
-
-            el.addEventListener('mouseenter', () => {
-              gsap.to(cursorDot, {
-                scale: 1.5,
-                backgroundColor: '#c084fc', // lighter purple on hover
-                duration: 0.2,
-              });
-            });
-
-            el.addEventListener('mouseleave', () => {
-              gsap.to(cursorDot, {
-                scale: 1,
-                backgroundColor: '#3b82f6',
-                duration: 0.2,
-                clearProps: 'scale,backgroundColor',
-              });
-            });
-          });
-        };
-
-        setupCursorHover();
-
-        // Observe document changes to apply to new nodes
-        const observer = new MutationObserver(setupCursorHover);
-        observer.observe(document.body, { childList: true, subtree: true });
-      }
-
-      // 3. Magnetic Interaction (targets elements with 'magnetic-target')
-      const setupMagneticElements = () => {
-        const magneticElements = document.querySelectorAll('.magnetic-target');
-        
-        magneticElements.forEach((el) => {
-          if (el.getAttribute('data-magnetic-setup') === 'true') return;
-          el.setAttribute('data-magnetic-setup', 'true');
-
-          el.addEventListener('mousemove', (e) => {
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            gsap.to(el, {
-              x: x * 0.4,
-              y: y * 0.4,
-              duration: 0.3,
-              ease: 'power2.out',
-            });
-          });
-
-          el.addEventListener('mouseleave', () => {
-            gsap.to(el, {
-              x: 0,
-              y: 0,
-              duration: 0.6,
-              ease: 'elastic.out(1, 0.3)',
-            });
-          });
-        });
+      const updateProgress = (progress = 0) => {
+        document.documentElement.style.setProperty('--scroll-progress', String(progress));
       };
 
-      setupMagneticElements();
-      const observerMag = new MutationObserver(setupMagneticElements);
-      observerMag.observe(document.body, { childList: true, subtree: true });
+      const stopSmoothScroll = () => {
+        cancelAnimationFrame(animationFrame);
+        lenis?.destroy();
+        lenis = undefined;
+        updateProgress(window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight));
+      };
+
+      const startSmoothScroll = () => {
+        stopSmoothScroll();
+        if (!smoothScrollContext.matches) return;
+
+        lenis = new Lenis({
+          duration: 1.05,
+          easing: (time) => Math.min(1, 1.001 - Math.pow(2, -10 * time)),
+          smoothWheel: true,
+          anchors: true,
+        });
+
+        lenis.on('scroll', (instance) => updateProgress(instance.progress));
+        const raf = (time: number) => {
+          lenis?.raf(time);
+          animationFrame = requestAnimationFrame(raf);
+        };
+        animationFrame = requestAnimationFrame(raf);
+      };
+
+      startSmoothScroll();
+      smoothScrollContext.addEventListener('change', startSmoothScroll);
+      window.addEventListener('scroll', () => {
+        if (lenis) return;
+        updateProgress(window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight));
+      }, { passive: true });
+      window.addEventListener('resize', () => {
+        updateProgress(window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight));
+      }, { passive: true });
+
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+
+      if (!reducedMotion.matches && 'IntersectionObserver' in window && revealElements.length) {
+        document.documentElement.classList.add('motion-ready');
+        const compactMotion = window.matchMedia('(max-width: 800px), (pointer: coarse)').matches;
+        const revealObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const element = entry.target as HTMLElement;
+            element.classList.add('is-revealed');
+            revealObserver.unobserve(element);
+            window.setTimeout(() => element.classList.add('reveal-complete'), compactMotion ? 560 : 950);
+          });
+        }, {
+          threshold: compactMotion ? .08 : .14,
+          rootMargin: compactMotion ? '0px 0px -6% 0px' : '0px 0px -12% 0px',
+        });
+
+        revealElements.forEach(element => revealObserver.observe(element));
+      }
     </script>
   </body>
 </html>
-
-<style is:global>
-  @import "tailwindcss";
-
-  /* Language Toggle Logic */
-  html[lang="en"] .lang-es-text { display: none !important; }
-  html[lang="es"] .lang-en-text { display: none !important; }
-
-  /* Premium Google Font Integration */
-  :root {
-    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background: #030712;
-    color: white;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    background: #030712;
-    color: white;
-    margin: 0;
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-    /* Custom cursor overrides default pointer on hoverable devices */
-    cursor: default;
-  }
-
-  @media (hover: hover) {
-    a, button, [role="button"], input, textarea, .project-card, .skill-card, .achievement-row {
-      cursor: none !important;
-    }
-  }
-
-  /* Custom Cursor Styles */
-  .custom-cursor-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #3b82f6; /* Purple accent */
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    will-change: transform;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  /* Hide custom cursor on touch/mobile devices */
-  @media (hover: none) {
-    .custom-cursor-dot {
-      display: none !important;
-    }
-    body {
-      cursor: auto !important;
-    }
-  }
-
-  .terminal,
-  .scrollable {
-    overflow: visible !important;
-    height: auto !important;
-  }
-
-  main,
-  section,
-  .container {
-    overflow: visible;
-  }
-
-  /* Custom Scrollbar for Lenis */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #030712;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #27272a;
-    border-radius: 4px;
-    border: 2px solid #030712;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f46;
-  }
-</style>

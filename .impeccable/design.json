@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "title": "Design System: PORTVAULT",
+  "extensions": {
+    "motion": [
+      { "name": "fast", "value": "180ms", "purpose": "Hover and selection feedback" },
+      { "name": "ui", "value": "260ms", "purpose": "UI state changes" },
+      { "name": "section", "value": "550ms", "purpose": "Caption reveal" },
+      { "name": "morph", "value": "900ms", "purpose": "Build to system SVG geometry" },
+      { "name": "ease-out", "value": "cubic-bezier(.16,1,.3,1)", "purpose": "CSS motion easing" }
+    ],
+    "breakpoints": [
+      { "name": "diagram-mobile", "value": "600px" },
+      { "name": "stack-layout", "value": "800px" }
+    ]
+  },
+  "components": [
+    { "name": "Primary action", "kind": "button", "html": "<button class='ds-button'>Explore my systems ↗</button>", "css": ".ds-button{font-family:'Nata Sans',sans-serif;padding:16px 22px;border:1px solid #2457eb;border-radius:6px;background:#2457eb;color:white}.ds-button:hover{background:#1943c1}.ds-button:focus-visible{outline:3px solid #477aff;outline-offset:5px}" },
+    { "name": "Input", "kind": "input", "html": "<label class='ds-field'>Email<input type='email' placeholder='you@company.com'></label>", "css": ".ds-field{font-family:'Nata Sans',sans-serif;font-size:12px}.ds-field input{font:inherit;display:block;margin-top:9px;background:#f5f6f8;border:1px solid #d4d8df;border-radius:6px;padding:12px 13px}.ds-field input:focus{outline:2px solid #477aff;outline-offset:2px}" },
+    { "name": "Navigation", "kind": "nav", "html": "<nav class='ds-nav'><a href='#work'>Work</a><a href='#systems'>Systems</a><a href='#contact'>Contact ↗</a></nav>", "css": ".ds-nav{display:flex;gap:28px;font:13px 'Nata Sans',sans-serif}.ds-nav a{color:#181a1f;text-decoration:none;padding:12px 0}.ds-nav a:hover{color:#2457eb}.ds-nav a:focus-visible{outline:3px solid #477aff;outline-offset:5px}" },
+    { "name": "Project type", "kind": "chip", "html": "<label class='ds-choice'><input type='checkbox'> API Integration</label>", "css": ".ds-choice{display:inline-flex;align-items:center;gap:9px;padding:12px;border:1px solid #d4d8df;border-radius:6px;font:12px 'Nata Sans',sans-serif}.ds-choice:has(:checked){background:#eef3ff;border-color:#2457eb;color:#183fae}.ds-choice:focus-within{outline:3px solid #477aff;outline-offset:3px}" },
+    { "name": "Architecture node", "kind": "custom", "html": "<div class='ds-node'><span>API</span><strong>Donation API</strong></div>", "css": ".ds-node{display:inline-block;padding:20px 16px;border:1px solid #7199ff;border-radius:6px;background:#1b2637;color:#f5f7fb;font-family:'Nata Sans',sans-serif}.ds-node span{display:block;font-size:10px;color:#b2bfd2;margin-bottom:9px}.ds-node strong{font-size:14px;font-weight:500}" }
+  ],
+  "narrative": {
+    "overview": "PORTVAULT is an engineer's work collection. Editorial whitespace, real project evidence, and one purposeful transformation replace agency language.",
+    "dos": ["Keep Nata Sans on all active components.", "Use first person and supplied project facts.", "Mark unverified project facts TODO."],
+    "donts": ["Do not add runtime UI frameworks, logo walls, fake statistics, arbitrary motion, or fake submission success."]
+  }
+}

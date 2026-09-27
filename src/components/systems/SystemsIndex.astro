@@ -1,0 +1,19 @@
+---
+import { systems } from '../../data/systems';
+import { sitePath } from '../../utils/paths';
+import Text from '../Text.astro';
+---
+<section id="systems" class="page-width systems-index" aria-labelledby="systems-title">
+  <div class="index-heading"><h2 id="systems-title"><Text en="System index" es="Índice de sistemas" /></h2><span><Text en="Explore the engineering behind each project" es="Explora la ingeniería detrás de cada proyecto" /></span></div>
+  <ul>{systems.map((system, index) => <li><a href={sitePath(`systems/${system.slug}/`)}><span class="system-id">{String(index + 1).padStart(2, '0')}</span><strong><Text {...system.name} /></strong><span class="system-type"><Text {...system.systemType} /></span><span class="index-arrow" aria-hidden="true">↗</span></a></li>)}</ul>
+</section>
+<style>
+  .systems-index { padding-bottom: var(--space-section); }
+  .index-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 24px; }
+  h2 { font-size: 1.125rem; font-weight: 550; } .index-heading > span { font-size: .8125rem; color: var(--muted); }
+  ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  li { border-bottom: 1px solid var(--line); } a { display: grid; grid-template-columns: 45px 1.5fr 1fr 24px; align-items: center; gap: 24px; padding: 24px 0; }
+  strong { font-size: 1rem; font-weight: 500; } .system-id, .system-type { font-size: .75rem; color: var(--muted); }
+  .index-arrow { font-size: 1.25rem; color: var(--blue); } a:hover strong { color: var(--blue); }
+  @media(max-width: 650px) { .index-heading { display: block; } .index-heading > span { display: block; margin-top: 10px; } a { grid-template-columns: 25px 1fr 20px; gap: 15px; } .system-type { grid-column: 2; grid-row: 2; } .index-arrow { grid-column: 3; grid-row: 1; } }
+</style>

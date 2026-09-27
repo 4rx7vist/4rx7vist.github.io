@@ -1,0 +1,21 @@
+---
+import Text from '../Text.astro';
+import type { System } from '../../data/systems';
+interface Props { system: System; detailed?: boolean }
+const { system, detailed = false } = Astro.props;
+---
+<dl class:list={['metadata', { detailed }]}>
+  <div><dt><Text en="System" es="Sistema" /></dt><dd><Text {...system.systemType} /></dd></div>
+  <div><dt>Stack</dt><dd>{system.stack.join(' / ')}</dd></div>
+  <div><dt><Text en="Status" es="Estado" /></dt><dd><Text {...system.status} /></dd></div>
+  <div><dt><Text en="Role" es="Rol" /></dt><dd><Text {...system.role} /></dd></div>
+  {detailed && <div><dt><Text en="Year" es="Año" /></dt><dd>{system.year}</dd></div>}
+</dl>
+<style>
+  .metadata { margin: 0; display: grid; gap: 16px; font-size: .8125rem; }
+  .metadata > div { display: grid; grid-template-columns: 68px 1fr; gap: 20px; }
+  dt { color: var(--muted); } dd { margin: 0; line-height: 1.6; }
+  .detailed { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 50px; }
+  .detailed > div { display: block; } .detailed dt { margin-bottom: 10px; text-transform: uppercase; font-size: .625rem; letter-spacing: .08em; }
+  @media(max-width: 600px) { .detailed { grid-template-columns: 1fr; } }
+</style>

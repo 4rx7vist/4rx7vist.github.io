@@ -1,5 +1,4 @@
 ---
-const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section id="achievements" class="bg-[#030712] pt-32 pb-12 relative overflow-hidden">
@@ -122,11 +121,12 @@ const baseUrl = import.meta.env.BASE_URL;
   </div>
 </section>
 
-<script define:vars={{ baseUrl }}>
+<script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   import * as THREE from "three";
   import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+  const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 
   gsap.registerPlugin(ScrollTrigger);
 

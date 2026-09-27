@@ -1,20 +1,24 @@
 ---
-import Navbar from "../components/Navbar.astro";
-import Banner from "../components/Banner.astro";
-import Layout from "../layouts/Layout.astro";
-import Contact from "../components/Contact.astro";
-import Projects from "../components/Projects.astro";
-// import Skills from "../components/Skills.astro";
-import Services from "../components/Services.astro";
-import Achievements from "../components/Achievements.astro";
-// cache bust: 1
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/hero/Hero.astro';
+import Projects from '../components/Projects.astro';
+import Experience from '../components/Experience.astro';
+import Lab from '../components/Lab.astro';
+import Contact from '../components/Contact.astro';
+// Achievements.astro and all GLB assets are intentionally preserved but not mounted.
+// This keeps the laptop hidden and avoids downloading or initializing Three.js.
 ---
-
+<!--
+THESIS: The engineer and the systems are two views of the same work.
+OWN-WORLD: White, Nata Sans, black type, blue interactions; dark only inside inspectors.
+STORY: Meet the engineer, connect components, inspect work, start a technical conversation.
+FIRST VIEWPORT: A full-height personal introduction with a direct scroll cue.
+FORM: User-pinned editorial layout, personal opening, static-first Astro.
+-->
 <Layout>
-  <Banner />
+  <Hero />
   <Projects />
-  <!-- <Skills /> -->
-  <Services />
-  <Achievements />
+  <Experience />
+  <Lab />
   <Contact />
 </Layout>

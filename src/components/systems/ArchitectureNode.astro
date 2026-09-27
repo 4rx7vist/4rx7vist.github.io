@@ -1,0 +1,15 @@
+---
+import type { SystemNode } from '../../data/systems';
+interface Props extends SystemNode { compact?: boolean }
+const { label, kind, compact = false } = Astro.props;
+---
+<div class:list={['architecture-node', kind, { compact }]}>
+  <span class="node-kind">{kind}</span>
+  <strong>{label}</strong>
+</div>
+<style>
+  .architecture-node { padding: 20px 16px; border: 1px solid #536174; border-radius: 6px; min-width: 0; background: #1b2637; color: #f5f7fb; }
+  .node-kind { display: block; font-size: .625rem; letter-spacing: .08em; text-transform: uppercase; color: #b2bfd2; margin-bottom: 9px; }
+  strong { display: block; font-size: .875rem; font-weight: 500; overflow-wrap: anywhere; }
+  .api { border-color: #7199ff; } .compact { padding: 15px 12px; }
+</style>

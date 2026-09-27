@@ -1,0 +1,22 @@
+---
+import Text from './Text.astro';
+const ideas = [
+  { en: 'Agents that use tools', es: 'Agentes que usan herramientas', descEn: 'Exploring how an agent can act on a workflow with clear boundaries and human review.', descEs: 'Explorar cómo un agente puede actuar sobre un flujo con límites claros y revisión humana.', tag: 'AI / AUTOMATION' },
+  { en: 'Infrastructure as a small system', es: 'Infraestructura como sistema', descEn: 'Exploring deployment, observability, and the tradeoffs behind a small cloud architecture.', descEs: 'Explorar despliegue, observabilidad y decisiones detrás de una arquitectura cloud pequeña.', tag: 'CLOUD / DELIVERY' },
+  { en: 'Developer tools that get out of the way', es: 'Herramientas que simplifican', descEn: 'Exploring small tools that remove repetitive steps from development work.', descEs: 'Explorar herramientas pequeñas que eliminan pasos repetitivos del desarrollo.', tag: 'TOOLING / WORKFLOWS' },
+];
+---
+<section id="lab" class="lab" aria-labelledby="lab-title"><div class="page-width lab-inner">
+  <div class="lab-intro" data-reveal="heading"><p class="section-label">LAB</p><h2 class="section-title" id="lab-title"><Text en="Room to experiment." es="Espacio para experimentar." /></h2><p><Text en="Questions worth exploring outside a project brief. These are research directions; the experiments and technical notes are still to come." es="Preguntas para explorar fuera de un proyecto. Estas son líneas de investigación; los experimentos y notas técnicas están por llegar." /></p><span class="lab-status"><Text en="TODO — publish experiments" es="TODO — publicar experimentos" /></span></div>
+  <ul data-reveal="list">{ideas.map(idea => <li><span class="lab-tag">{idea.tag}</span><h3><Text en={idea.en} es={idea.es} /></h3><p><Text en={idea.descEn} es={idea.descEs} /></p></li>)}</ul>
+</div></section>
+<style>
+  .lab { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .lab-inner { padding-block: 84px; display: grid; grid-template-columns: .8fr 1fr; gap: 140px; }
+  .section-label { margin-bottom: 24px; } h2 { max-width: 10ch; }
+  .lab-intro > p:not(.section-label) { margin-top: 25px; color: var(--muted); font-size: .875rem; max-width: 40ch; }
+  .lab-status { display: inline-block; font-size: .6875rem; color: var(--muted); padding-top: 24px; }
+  ul { padding: 0; margin: 0; list-style: none; } li { padding-block: 24px; border-bottom: 1px solid var(--line); } li:first-child { padding-top: 0; } li:last-child { border-bottom: none; padding-bottom: 0; }
+  .lab-tag { font-size: .625rem; letter-spacing: .06em; color: var(--blue); } h3 { font-size: 1.125rem; font-weight: 500; margin-top: 10px; } li p { font-size: .8125rem; color: var(--muted); margin-top: 10px; max-width: 55ch; }
+  @media(max-width: 800px) { .lab-inner { grid-template-columns: 1fr; gap: 40px; padding-block: 64px; } h2 { max-width: none; } .lab-intro > p:not(.section-label) { max-width: 55ch; } }
+</style>

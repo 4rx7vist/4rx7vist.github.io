@@ -1,0 +1,34 @@
+---
+import Text from '../Text.astro';
+---
+<section id="home" class="hero page-width" aria-labelledby="hero-title">
+  <div class="hero-main">
+    <p class="hero-intro"><Text en="Hey, I'm Alexis — a software engineer." es="Hey, soy Alexis — ingeniero de software." /></p>
+    <h1 id="hero-title"><Text en="I create thoughtful systems built to scale." es="Creo sistemas con intención, preparados para escalar." /></h1>
+    <p class="hero-description"><Text en="I turn complex workflows into clear, reliable digital products." es="Convierto flujos complejos en productos digitales claros y confiables." /></p>
+  </div>
+  <a class="scroll-cue" href="#work">
+    <Text en="Scroll down" es="Desliza hacia abajo" />
+    <span class="scroll-arrow" aria-hidden="true">↓</span>
+  </a>
+</section>
+<style>
+  .hero { min-height: 100svh; display: flex; flex-direction: column; }
+  .hero-main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(64px, 10vh, 120px); }
+  .hero-intro { color: var(--muted); font-size: 1.125rem; }
+  h1 { max-width: 15ch; margin-top: 30px; font-size: clamp(3rem, 5.1vw, 5rem); font-weight: 550; line-height: 1.04; letter-spacing: -.04em; text-wrap: balance; }
+  .hero-description { max-width: 54ch; margin-top: 30px; color: var(--muted); font-size: .9375rem; }
+  .scroll-cue { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); color: var(--ink); font-size: .8125rem; font-weight: 550; }
+  .scroll-arrow { transition: transform var(--motion-fast) var(--ease-out); }
+  @media(hover: hover) { .scroll-cue:hover .scroll-arrow { transform: translateY(5px); } }
+  @media(max-width: 800px) {
+    .hero { min-height: calc(100svh - 120px - env(safe-area-inset-top)); }
+    .hero-main { padding-block: 52px; }
+    .hero-intro { font-size: .9375rem; }
+    h1 { max-width: 12ch; margin-top: 24px; }
+    .hero-description { margin-top: 24px; }
+  }
+  @media(max-width: 420px) {
+    .scroll-cue { min-height: 66px; }
+  }
+</style>

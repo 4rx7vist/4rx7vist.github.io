@@ -6,7 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://4rx7vist.github.io',
-  base: '/Port_Vault',
+  output: 'static',
+  trailingSlash: 'always',
   vite: {
     plugins: [tailwindcss()]
   }
